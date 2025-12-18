@@ -8,10 +8,13 @@ class ConnectivityWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<ConnectivityResult>(
+    return StreamBuilder<List<ConnectivityResult>>(
+      // Update type to match new API
       stream: Connectivity().onConnectivityChanged,
       builder: (context, snapshot) {
-        final isOffline = snapshot.hasData && snapshot.data == ConnectivityResult.none;
+        final isOffline = snapshot.hasData &&
+            snapshot.data != null &&
+            snapshot.data!.contains(ConnectivityResult.none);
 
         return Stack(
           children: [
