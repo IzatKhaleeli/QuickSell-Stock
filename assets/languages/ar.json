@@ -93,5 +93,8 @@
   "cashAmount": "مبلغ الكاش",
   "size": "الحجم",
   "about": "حول",
-  "main_screen": "الشاشة الرئيسية"
+  "main_screen": "الشاشة الرئيسية",
+  "management": "الإدارة",
+  "newItem": "عنصر جديد",
+  "updateItem": "تحديث/حذف عنصر"
 }

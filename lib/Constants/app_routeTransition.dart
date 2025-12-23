@@ -22,13 +22,13 @@ class AppRouteTransition<T> extends PageRouteBuilder<T> {
                 CurvedAnimation(parent: secondaryAnimation, curve: popCurve);
 
             final offsetPush = Tween<Offset>(
-              begin: const Offset(1.0, 0.0),
+              begin: const Offset(-1.0, 0.0),
               end: Offset.zero,
             ).animate(pushAnimation);
 
             final offsetPop = Tween<Offset>(
               begin: Offset.zero,
-              end: const Offset(-1.0, 0.0),
+              end: const Offset(1.0, 0.0),
             ).animate(popAnimation);
 
             return SlideTransition(

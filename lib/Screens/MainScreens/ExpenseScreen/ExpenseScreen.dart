@@ -53,12 +53,10 @@ class _OtherSellScreenState extends State<OtherSellScreen> {
     expensesList = List.from(newExpenses);
 
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
     final scale = (screenWidth / 390).clamp(0.70, 1.2);
-    final horizontalPadding = 20.0 * scale; // originally 20 padding horizontal
+    final horizontalPadding = 20.0 * scale;
     final verticalSpacing = 10.0 * scale;
     final titleFontSize = 16.0 * scale;
-    final labelFontSize = 14.0 * scale;
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(

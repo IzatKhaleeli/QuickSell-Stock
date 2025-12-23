@@ -294,21 +294,23 @@ class _ReportScreenState extends State<ReportScreen> {
                               font, 2),
                           _buildCell(
                             (expensesList[i].name?.trim().isNotEmpty ?? false)
-                                ? expensesList[i].name!
+                                ? expensesList[i].name
                                 : 'N/A',
                             font,
                             3,
                           ),
                           _buildCell(
                             expensesList[i].createdAt != null
-                                ? "${DateHelper.formatTimeOnly(expensesList[i].createdAt!)}"
+                                ? DateHelper.formatTimeOnly(
+                                    expensesList[i].createdAt!)
                                 : "-",
                             font,
                             2,
                           ),
                           _buildCell(
                             expensesList[i].createdAt != null
-                                ? "${DateHelper.formatDateOnly(expensesList[i].createdAt!)}"
+                                ? DateHelper.formatDateOnly(
+                                    expensesList[i].createdAt!)
                                 : "-",
                             font,
                             2,

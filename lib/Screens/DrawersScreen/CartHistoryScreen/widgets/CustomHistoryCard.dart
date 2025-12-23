@@ -30,8 +30,6 @@ class CustomHistoryCard extends StatefulWidget {
 }
 
 class _CustomHistoryCardState extends State<CustomHistoryCard> {
-  bool _isExpanded = false;
-
   @override
   Widget build(BuildContext context) {
     var appLocalization =

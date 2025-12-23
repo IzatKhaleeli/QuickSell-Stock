@@ -9,6 +9,8 @@ import '../../Services/LocalizationService.dart';
 import '../../States/LoginState.dart';
 import 'CartHistoryScreen/CartHistoryScreen.dart';
 import 'ReportScreen/ReportScreen.dart';
+import 'ManagementScreen/NewItemScreen.dart';
+import 'ManagementScreen/UpdateItemScreen.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -78,6 +80,58 @@ class AppDrawer extends StatelessWidget {
                       );
                     },
                   ),
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      dividerColor: Colors.transparent,
+                    ),
+                    child: ExpansionTile(
+                      leading: const Icon(Icons.inventory_2),
+                      title: Text(
+                        appLocalization.getLocalizedString("management"),
+                      ),
+                      tilePadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      childrenPadding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 8.0),
+                      shape: const RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.transparent),
+                      ),
+                      collapsedShape: const RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.transparent),
+                      ),
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.add_box),
+                          title: Text(
+                            appLocalization.getLocalizedString("newItem"),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 24.0, vertical: 6.0),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.of(context).push(
+                              AppRouteTransition(page: const NewItemScreen()),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        ListTile(
+                          leading: const Icon(Icons.edit),
+                          title: Text(
+                            appLocalization.getLocalizedString("updateItem"),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 24.0, vertical: 6.0),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.of(context).push(
+                              AppRouteTransition(
+                                  page: const UpdateItemScreen()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   ListTile(
                     leading: const Icon(Icons.language),
                     title: Text(
@@ -88,12 +142,7 @@ class AppDrawer extends StatelessWidget {
                       String currentLang = appLocalization.selectedLanguageCode;
                       String newLang = currentLang == 'en' ? 'ar' : 'en';
                       appLocalization.selectedLanguageCode = newLang;
-                      Navigator.popUntil(context, (route) => false);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SizedBox()),
-                      );
+                      Navigator.pop(context);
                     },
                   ),
                   ListTile(
