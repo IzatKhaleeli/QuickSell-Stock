@@ -11,7 +11,7 @@ class ItemModel {
     required this.itemId,
     this.itemName,
     this.stockCount,
-  }); // Static value
+  });
 
   factory ItemModel.fromJson(Map<String, dynamic> json) {
     return ItemModel(
@@ -19,7 +19,9 @@ class ItemModel {
       purchasePrice: (json["ActualPrice"] as num).toDouble(),
       itemId: json["ItemID"] != null ? int.parse(json["ItemID"]) : 0,
       itemName: json["ItemName"] ?? " ",
-      stockCount: json["StockCount"] != null ? int.parse(json["StockCount"].toString()) : 0,
+      stockCount: json["StockCount"] != null
+          ? int.parse(json["StockCount"].toString())
+          : 0,
     );
   }
 

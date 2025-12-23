@@ -12,28 +12,55 @@ class ApiRequest {
   static const Duration timeoutDuration = Duration(seconds: 10);
 
   static Future<Map<String, dynamic>> get(
-      String endpoint, {
-        required BuildContext context,
-      }) async {
+    String endpoint, {
+    required BuildContext context,
+  }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token') ?? '';
-      final response = await http
-          .get(
+      final response = await http.get(
         Uri.parse(endpoint),
         headers: {
           "Authorization": "Bearer $token",
           "Idempotency-Key": IdempotencyHelper.generateKey(),
           "Content-Type": "application/json",
         },
-      )
-          .timeout(timeoutDuration, onTimeout: _onTimeout);
+      ).timeout(timeoutDuration, onTimeout: _onTimeout);
       print("the response is :${response.body}");
 
       return await _handleResponse(
         response,
         context,
-            () => ApiRequest.get(endpoint, context: context), // Wrap the request inside a closure
+        () => ApiRequest.get(endpoint,
+            context: context), // Wrap the request inside a closure
+      );
+    } on TimeoutException {
+      return _handleTimeout();
+    } catch (e) {
+      return _handleError(e);
+    }
+  }
+
+  static Future<Map<String, dynamic>> delete({
+    required String endpoint,
+    required BuildContext context,
+  }) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token') ?? '';
+      final response = await http.delete(
+        Uri.parse(endpoint),
+        headers: {
+          "Authorization": "Bearer $token",
+          "Content-Type": "application/json",
+        },
+      ).timeout(timeoutDuration, onTimeout: _onTimeout);
+      print("the response is :${response.body}");
+
+      return await _handleResponse(
+        response,
+        context,
+        () => ApiRequest.delete(endpoint: endpoint, context: context),
       );
     } on TimeoutException {
       return _handleTimeout();
@@ -43,11 +70,11 @@ class ApiRequest {
   }
 
   static Future<Map<String, dynamic>> post(
-      String endpoint,
-      Map<String, dynamic> body, {
-        Map<String, String>? headers,
-        required BuildContext context,
-      }) async {
+    String endpoint,
+    Map<String, dynamic> body, {
+    Map<String, String>? headers,
+    required BuildContext context,
+  }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token') ?? '';
@@ -61,12 +88,17 @@ class ApiRequest {
 
       final response = await http
           .post(
-        Uri.parse(endpoint),
-        body: json.encode(body),
-        headers: mergedHeaders,
-      ).timeout(timeoutDuration, onTimeout: _onTimeout);
+            Uri.parse(endpoint),
+            body: json.encode(body),
+            headers: mergedHeaders,
+          )
+          .timeout(timeoutDuration, onTimeout: _onTimeout);
 
-      return await _handleResponse(response, context, () => post(endpoint, body, context: context, headers: headers),);
+      return await _handleResponse(
+        response,
+        context,
+        () => post(endpoint, body, context: context, headers: headers),
+      );
     } on TimeoutException {
       return _handleTimeout();
     } catch (e) {
@@ -74,13 +106,49 @@ class ApiRequest {
     }
   }
 
-  // Handle API response with auto login retry
-  static Future<Map<String, dynamic>> _handleResponse(
-      http.Response response,
-      BuildContext context,
-      Future<Map<String, dynamic>> Function() apiRequest,
-      ) async {
+  static Future<Map<String, dynamic>> put({
+    required String endpoint,
+    required Map<String, dynamic> body,
+    required BuildContext context,
+  }) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token') ?? '';
 
+      final defaultHeaders = {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      };
+
+      final response = await http
+          .put(
+            Uri.parse(endpoint),
+            body: json.encode(body),
+            headers: defaultHeaders,
+          )
+          .timeout(timeoutDuration, onTimeout: _onTimeout);
+
+      return await _handleResponse(
+        response,
+        context,
+        () => put(
+          endpoint: endpoint,
+          body: body,
+          context: context,
+        ),
+      );
+    } on TimeoutException {
+      return _handleTimeout();
+    } catch (e) {
+      return _handleError(e);
+    }
+  }
+
+  static Future<Map<String, dynamic>> _handleResponse(
+    http.Response response,
+    BuildContext context,
+    Future<Map<String, dynamic>> Function() apiRequest,
+  ) async {
     debugPrint("Response ${response.statusCode}: ${response.body}");
 
     switch (response.statusCode) {
@@ -92,7 +160,7 @@ class ApiRequest {
         };
 
       case 401:
-      // Handle Unauthorized: try auto-login and retry the original request
+        // Handle Unauthorized: try auto-login and retry the original request
         final loginState = Provider.of<LoginState>(context, listen: false);
         final success = await loginState.autoLogin(context);
 

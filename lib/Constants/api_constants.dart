@@ -17,4 +17,6 @@ class ApiConstants {
       '$baseUrl/GetDailtProfit';
   static const String fetchAllOrderItemsReportEndPoint =
       '$baseUrl/OrderItemsReport';
+
+  static const String item = '$baseUrl/items';
 }
