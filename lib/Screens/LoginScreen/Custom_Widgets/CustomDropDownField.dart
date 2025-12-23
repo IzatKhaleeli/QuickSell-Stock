@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../Services/LocalizationService.dart';
+import '../../../services/LocalizationService.dart';
 
 class CustomDropdownField<T> extends StatelessWidget {
   final String label;

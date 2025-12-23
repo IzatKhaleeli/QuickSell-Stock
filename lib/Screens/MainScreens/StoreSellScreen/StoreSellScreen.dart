@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../Constants/app_color.dart';
 import '../../../Models/ItemModel.dart';
 import '../../../States/ItemsState.dart';
-import '../../../Services/LocalizationService.dart';
+import '../../../services/LocalizationService.dart';
 import 'widgets/SearchField.dart';
 import 'widgets/bottom_sheet.dart';
 import 'widgets/product_card.dart';

@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../States/HistoryCartState.dart';
-import '../../../../Services/LocalizationService.dart';
+import '../../../../services/LocalizationService.dart';
 import 'CustomHistoryCard.dart'; // Import HistoryCard widget
 
 class CustomHistoryItemList extends StatelessWidget {
-  final LocalizationService
-      appLocalization; // Add LocalizationService parameter
+  final LocalizationService appLocalization;
 
-  // Accept LocalizationService as a parameter in the constructor
   CustomHistoryItemList({Key? key, required this.appLocalization})
       : super(key: key);
 

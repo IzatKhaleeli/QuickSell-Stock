@@ -8,7 +8,7 @@ import '../../../Constants/app_color.dart';
 import '../../../Custom_Components/CustomLoadingAvatar.dart';
 import '../../../Models/ExpensesItemModel.dart';
 import '../../../Models/ItemCartModel.dart';
-import '../../../Services/LocalizationService.dart';
+import '../../../services/LocalizationService.dart';
 import '../../../api_services/CartService.dart';
 import '../../../services/CheckConnectivity.dart';
 import '../../../api_services/expenses_service.dart';

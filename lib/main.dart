@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import '../States/LoginState.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'Services/LocalizationService.dart';
+import 'services/LocalizationService.dart';
 import 'screens/SplashScreen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
@@ -26,7 +26,6 @@ void main() async {
   bool isJailbroken = false;
   bool developerMode = false;
   try {
-    // Check for jailbreak status
     isJailbroken = await FlutterJailbreakDetection.jailbroken;
     developerMode = await FlutterJailbreakDetection.developerMode;
     print("developer mode :${developerMode} : isJailbroken :${isJailbroken}");
@@ -35,11 +34,10 @@ void main() async {
     developerMode = true;
   } catch (e) {
     print("Error localization Jailbroken: $e");
-    // Handle initialization error as needed
   }
 
   if (isJailbroken) {
-    runApp(MyApp(isJailbroken: true));
+    runApp(const MyApp(isJailbroken: true));
   } else {
     try {
       await localizeService.initLocalization();
@@ -74,15 +72,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = ThemeData(
       brightness: Brightness.light,
-      primaryColor: AppColors.primaryColor, // Use AppColors
-      scaffoldBackgroundColor: AppColors.backgroundColor, // Use AppColors
-      colorScheme: ColorScheme.light().copyWith(
-        primary: AppColors.primaryColor, // Use AppColors
+      primaryColor: AppColors.primaryColor,
+      scaffoldBackgroundColor: AppColors.backgroundColor,
+      colorScheme: const ColorScheme.light().copyWith(
+        primary: AppColors.primaryColor,
         onPrimary: AppColors.primaryColor,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.secondaryColor, // Use AppColors
+        fillColor: AppColors.secondaryColor,
         contentPadding:
             const EdgeInsets.symmetric(vertical: 20.0, horizontal: 25.0),
         border: OutlineInputBorder(
@@ -92,39 +90,35 @@ class MyApp extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-              color: AppColors.primaryColor.withOpacity(0.5),
-              width: 1), // Use AppColors
+              color: AppColors.primaryColor.withOpacity(0.5), width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-              color: AppColors.primaryColor, width: 2), // Use AppColors
+          borderSide: const BorderSide(color: AppColors.primaryColor, width: 2),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.primaryColor, // Use AppColors
+          foregroundColor: AppColors.primaryColor,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
-          backgroundColor: AppColors.primaryColor, // Use AppColors
+          backgroundColor: AppColors.primaryColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           elevation: 2,
         ),
       ),
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         titleMedium: TextStyle(
-            color: AppColors.primaryColor,
-            fontWeight: FontWeight.bold), // Use AppColors
-        bodyMedium:
-            TextStyle(color: AppColors.primaryTextColor), // Use AppColors
+            color: AppColors.primaryColor, fontWeight: FontWeight.bold),
+        bodyMedium: TextStyle(color: AppColors.primaryTextColor),
       ),
     );
 
     if (isJailbroken) {
-      return MaterialApp(
+      return const MaterialApp(
         home: Scaffold(
           body: Center(
             child: Text(
@@ -142,7 +136,7 @@ class MyApp extends StatelessWidget {
       return GlobalErrorListener(
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'QuickSell', // App title
+          title: 'QuickSell',
           theme: theme,
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
@@ -150,12 +144,11 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('en', 'US'), // English
-            Locale('ar', 'AE'), // Arabic
-            // Add more locales as needed
+            Locale('en', 'US'),
+            Locale('ar', 'AE'),
           ],
           locale: Locale(localizeService.selectedLanguageCode),
-          home: SplashScreen(),
+          home: const SplashScreen(),
           builder: (context, child) {
             return Directionality(
               textDirection: localizeService.selectedLanguageCode == 'en'

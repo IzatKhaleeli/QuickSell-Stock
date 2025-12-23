@@ -6,7 +6,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import '../../Constants/app_color.dart';
 import '../../Models/StoreModel.dart';
-import '../../Services/LocalizationService.dart';
+import '../../services/LocalizationService.dart';
 import '../../services/CheckConnectivity.dart';
 import '../../States/ExpenseState.dart';
 import '../../States/ItemsState.dart';

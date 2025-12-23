@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_sell/Constants/app_color.dart';
-import 'Services/LocalizationService.dart';
+import 'services/LocalizationService.dart';
 import 'services/globalError.dart';
 
 class GlobalErrorListener extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../Constants/app_color.dart';
 import '../../../../Custom_Components/CustomLoadingAvatar.dart';
 import '../../../../Models/CartModel.dart';
-import '../../../../Services/LocalizationService.dart';
+import '../../../../services/LocalizationService.dart';
 import '../../../../api_services/CartService.dart';
 import '../../../../services/CheckConnectivity.dart';
 import '../../../../States/HistoryCartState.dart';

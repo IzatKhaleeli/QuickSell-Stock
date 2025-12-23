@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_sell/Constants/app_color.dart';
 
-import '../../../../Services/LocalizationService.dart';
+import '../../../../services/LocalizationService.dart';
 
 enum PaymentMethod { visa, cash, mix }
 

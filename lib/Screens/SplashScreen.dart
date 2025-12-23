@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../Services/LocalizationService.dart';
+import '../services/LocalizationService.dart';
 import 'MainScreen.dart';
 import 'LoginScreen/LoginScreen.dart';
 import '../States/LoginState.dart';

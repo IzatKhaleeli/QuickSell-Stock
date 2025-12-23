@@ -5,7 +5,7 @@ import '../../Constants/app_color.dart';
 import '../../Constants/app_routeTransition.dart';
 import '../../Custom_Components/CustomLoadingAvatar.dart';
 import '../../Custom_Components/CustomPopups.dart';
-import '../../Services/LocalizationService.dart';
+import '../../services/LocalizationService.dart';
 import '../../States/LoginState.dart';
 import 'CartHistoryScreen/CartHistoryScreen.dart';
 import 'ReportScreen/ReportScreen.dart';

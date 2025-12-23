@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../Models/ItemCartModel.dart';
 import '../../../../Constants/app_color.dart';
-import '../../../../Services/LocalizationService.dart';
+import '../../../../services/LocalizationService.dart';
 import '../../../../States/CartState.dart';
 import 'custom_text_field.dart';
 import '../../../../Models/ItemModel.dart';

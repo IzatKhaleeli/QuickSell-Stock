@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../Constants/app_color.dart';
-import '../../../../Services/LocalizationService.dart';
+import '../../../../services/LocalizationService.dart';
 
 class CustomFilterArea extends StatefulWidget {
   final LocalizationService appLocalization;

@@ -10,7 +10,7 @@ import 'widgets/custom_dropdown.dart';
 import 'widgets/custom_textfield.dart';
 import 'widgets/custom_button.dart';
 import '../../../Models/ExpensesItemModel.dart';
-import '../../../Services/LocalizationService.dart';
+import '../../../services/LocalizationService.dart';
 
 class OtherSellScreen extends StatefulWidget {
   const OtherSellScreen({Key? key}) : super(key: key);

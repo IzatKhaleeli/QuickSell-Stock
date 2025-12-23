@@ -4,7 +4,7 @@ import 'package:quick_sell/screens/MainScreens/CartScreen/widgets/payment_method
 import '../../../Constants/app_color.dart';
 import '../../../Custom_Components/CustomLoadingAvatar.dart';
 import '../../../Custom_Components/CustomPopups.dart';
-import '../../../Services/LocalizationService.dart';
+import '../../../services/LocalizationService.dart';
 import '../../../api_services/CartService.dart';
 import '../../../services/CheckConnectivity.dart';
 import '../../../States/CartState.dart';

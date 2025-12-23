@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../Constants/app_color.dart';
-import '../Services/LocalizationService.dart';
+import '../services/LocalizationService.dart';
 import '../services/responsive.dart';
 import 'DrawersScreen/app_drawer.dart';
 import 'MainScreens/CartScreen/CartScreen.dart';

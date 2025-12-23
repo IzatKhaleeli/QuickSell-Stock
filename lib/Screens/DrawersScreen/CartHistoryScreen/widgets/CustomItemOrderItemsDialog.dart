@@ -3,7 +3,7 @@ import 'dart:ui'; // Import to use ImageFilter.blur
 
 import '../../../../Constants/app_color.dart';
 import '../../../../Models/ItemCartModel.dart';
-import '../../../../Services/LocalizationService.dart';
+import '../../../../services/LocalizationService.dart';
 import 'CustomDetailRow.dart';
 
 class CustomItemOrderItemsDialog extends StatelessWidget {

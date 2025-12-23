@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../Constants/app_color.dart';
-import '../../../Services/LocalizationService.dart';
+import '../../../services/LocalizationService.dart';
 import '../../../States/HistoryCartState.dart';
 import 'widgets/CustomFilterArea.dart';
 import 'widgets/CustomHistoryItemList.dart';
 
 class CartHistoryScreen extends StatefulWidget {
+  const CartHistoryScreen({super.key});
+
   @override
   State<CartHistoryScreen> createState() => _CartHistoryScreenState();
 }
@@ -17,24 +19,21 @@ class _CartHistoryScreenState extends State<CartHistoryScreen> {
     var appLocalization =
         Provider.of<LocalizationService>(context, listen: false);
 
-    // Get the current carts list from the provider
     var historyCartState = Provider.of<HistoryCartState>(context);
     var carts = historyCartState.carts;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          appLocalization
-              .getLocalizedString('salesHistory'), // More professional name
-          textAlign: TextAlign.center, // Center the title
-          style: TextStyle(
-            color: AppColors.lighterTextColor, // Text color from AppColors
+          appLocalization.getLocalizedString('salesHistory'),
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: AppColors.lighterTextColor,
           ),
         ),
-        backgroundColor: AppColors.primaryColor, // AppBar with primary color
-        iconTheme: IconThemeData(
-          color: AppColors
-              .lighterTextColor, // Set the back arrow color to match text color
+        backgroundColor: AppColors.primaryColor,
+        iconTheme: const IconThemeData(
+          color: AppColors.lighterTextColor,
         ),
       ),
       body: Padding(
@@ -42,12 +41,8 @@ class _CartHistoryScreenState extends State<CartHistoryScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Filter Area: Date From and Date To
             CustomFilterArea(appLocalization: appLocalization),
-
             const SizedBox(height: 20),
-
-            // List of Cards: History Items
             Expanded(
               child: carts.isEmpty
                   ? Center(
