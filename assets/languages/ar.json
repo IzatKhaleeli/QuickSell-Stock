@@ -95,6 +95,8 @@
   "about": "حول",
   "main_screen": "الشاشة الرئيسية",
   "management": "الإدارة",
-  "newItem": "عنصر جديد",
-  "updateItem": "تحديث/حذف عنصر"
+  "newItem": "المنتج جديد",
+  "updateItem": "تحديث المنتج",
+  "item_name": "اسم المنتج",
+  "itemCreatedSuccessfully": "تم إنشاء المنتج بنجاح"
 }

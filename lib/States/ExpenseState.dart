@@ -14,7 +14,6 @@ class ExpenseState extends ChangeNotifier {
 
   // Fetch expenses from API
   Future<void> fetchExpenses(BuildContext context) async {
-    debugPrint("fetchExpenses started");
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -23,7 +22,6 @@ class ExpenseState extends ChangeNotifier {
       List<ExpensesItemModel> fetchedExpenses =
           await ExpensesService.fetchExpenses(context);
       _expenses = fetchedExpenses;
-      debugPrint("fetchedExpensess :${_expenses}");
     } catch (e) {
       _errorMessage = "Failed to load expenses: $e";
       _expenses = [];
@@ -34,13 +32,11 @@ class ExpenseState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Clear expenses when logging out
   void clearExpenses() {
     _expenses = [];
     notifyListeners();
   }
 
-  // Clear the entire state (for logout)
   void clearState() {
     _expenses = [];
     _errorMessage = null;

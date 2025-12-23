@@ -42,8 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     Future.microtask(() async {
-      // await Provider.of<StoresState>(context, listen: false).fetchStores(context);
-      await _checkSmartLoginSupport(); // Check for biometric support
+      await _checkSmartLoginSupport();
     });
   }
 
@@ -65,25 +64,21 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   bool validateLoginInputs(LoginState loginState) {
-    print("validateLoginInputs invoked in loginScreen");
-    String username = loginState.username ??
-        ''; // Get username from loginState or use an empty string if null
-    String password = loginState.password ??
-        ''; // Get password from loginState or use an empty string if null
+    String username = loginState.username;
+    String password = loginState.password;
 
-    // Check if username or password is empty
     if (username.isEmpty || password.isEmpty || selectedStore.storeId.isEmpty) {
-      return false; // Validation failed
+      return false;
     }
 
-    return true; // Validation succeeded
+    return true;
   }
 
   bool validateStoreInputs() {
     if (selectedStore.storeId.isEmpty) {
-      return false; // Validation failed
+      return false;
     }
-    return true; // Validation succeeded
+    return true;
   }
 
   void _handleSmartLogin(BuildContext context, LoginState loginState,
@@ -92,7 +87,6 @@ class _LoginScreenState extends State<LoginScreen> {
     auth = LocalAuthentication();
     bool isSupported = await auth.isDeviceSupported();
     if (!isSupported) {
-      print("not suppport");
       showLoginFailedDialog(
         context,
         localizationService.getLocalizedString('noBiometricSupportBody'),
@@ -106,8 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     try {
-      print("try started");
-
       bool isSmart = true;
       List<BiometricType> availableBiometrics =
           await auth.getAvailableBiometrics();
@@ -171,7 +163,6 @@ class _LoginScreenState extends State<LoginScreen> {
       LocalizationService localizationService,
       LoginState loginState,
       StoreModel? selectedStore) async {
-    // Show loading avatar
     showLoadingAvatar(context);
 
     try {
@@ -179,26 +170,19 @@ class _LoginScreenState extends State<LoginScreen> {
           loginState.username, loginState.password, context);
 
       if (loginResult["status"] == 200) {
-        // Save credentials
         await saveCredentials(loginState.username, loginState.password);
 
-        // Set the selected store
-        // Provider.of<StoresState>(context, listen: false)
-        //     .setSelectedStore(selectedStore!.storeId, selectedStore!.address);
-        // debugPrint("selectedStore saved is :${selectedStore}");
         int storeIdInt = 1;
 
-        // Fetch expenses and items before navigating
         await Provider.of<ExpenseState>(context, listen: false)
             .fetchExpenses(context);
         await Provider.of<ItemsState>(context, listen: false)
             .fetchItems(context, storeIdInt);
 
-        // Navigate to MainScreen
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => MainScreen()),
-          (Route<dynamic> route) => false, // This removes all previous routes
+          (Route<dynamic> route) => false,
         );
       } else if (loginResult["status"] == 400) {
         Navigator.pop(context);
@@ -244,13 +228,12 @@ class _LoginScreenState extends State<LoginScreen> {
     final horizontalPadding = screenSize.width * 0.07;
     final spacingLarge = 20.0 * scale;
     final spacingMedium = 17.0 * scale;
-    final spacingSmall = 10.0 * scale;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<LocalizationService>(
           create: (_) {
             var localizationState = LocalizationService();
-            localizationState.initLocalization(); // Initialize localization
+            localizationState.initLocalization();
             return localizationState;
           },
         ),
@@ -260,10 +243,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
       child: Consumer2<LocalizationService, LoginState>(
         builder: (context, localizationService, loginState, _) {
-          // Fetching the store list from the StoresState
-          final storeState = Provider.of<StoresState>(context);
-          final stores = storeState.stores;
-
           return Directionality(
             textDirection: localizationService.selectedLanguageCode == "ar"
                 ? TextDirection.rtl
@@ -335,63 +314,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .backgroundColor, // Pass the background color
                             ),
                             SizedBox(height: spacingLarge),
-                            // Row(
-                            //   children: [
-                            //     Expanded(
-                            //       child: CustomDropdownField<String>(
-                            //         label: localizationService.isLocalizationLoaded
-                            //             ? localizationService.getLocalizedString('selectStore')
-                            //             : 'Choose Store',
-                            //         hint: "",
-                            //         items: stores.map((store) => store.address).toList(),
-                            //         selectedValue: selectedStore?.address, // Use store address for display
-                            //         onChanged: (value) {
-                            //           setState(() {
-                            //             // Find the selected store by its address
-                            //             selectedStore = stores.firstWhere(
-                            //                   (store) => store.address == value,
-                            //               orElse: () => StoreModel(storeId: '', address: ''),
-                            //             );
-                            //           });
-                            //         },
-                            //         backgroundColor: AppColors.cardBackgroundColor,
-                            //         textColor: AppColors.primaryTextColor,
-                            //         hintColor: AppColors.hintTextColor,
-                            //         borderColor: AppColors.primaryColor,
-                            //       ),
-                            //     ),
-                            //     Padding(
-                            //       padding: EdgeInsets.only(top: spacingLarge),
-                            //       child: IconButton(
-                            //         icon: const Icon(Icons.refresh, color: AppColors.secondaryColor),
-                            //         tooltip: localizationService.getLocalizedString('refresh'),
-                            //         onPressed: () async {
-                            //           bool isConnected = await checkConnectivity();
-                            //           if (!isConnected) {
-                            //             showLoginFailedDialog(
-                            //               context,
-                            //               localizationService.getLocalizedString('noInternetConnection'),
-                            //               localizationService.getLocalizedString('noInternet'),
-                            //               localizationService.selectedLanguageCode,
-                            //               localizationService.getLocalizedString('ok'),
-                            //             );
-                            //             return;
-                            //           }
-                            //           showLoadingAvatar(context);
-                            //           try {
-                            //             await Provider.of<StoresState>(context, listen: false).fetchStores(context);
-                            //             Navigator.of(context, rootNavigator: true).pop();
-                            //           }
-                            //           catch (e) {
-                            //             debugPrint('Error while fetching stores: $e');
-                            //             Navigator.of(context, rootNavigator: true).pop();
-                            //           }
-                            //         },
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            // Aligning the login button to the bottom
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Padding(
@@ -403,7 +325,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                           .getLocalizedString('login')
                                       : 'Login',
                                   onPressed: () async {
-                                    // Check for internet connectivity
                                     bool isConnected =
                                         await checkConnectivity();
                                     if (!isConnected) {

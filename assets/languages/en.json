@@ -83,6 +83,7 @@
   "reportGenerationFailed": "Report generation failed",
   "tryAgain": "Please try again",
   "name": "Name",
+  "item_name": "Item Name",
   "pleaseChooseSize": "Please choose size",
   "errorLoading": "Error in loading",
   "noSizesAvailable": "No choices available",
@@ -98,5 +99,6 @@
   "main_screen": "Main Screen",
   "management": "Management",
   "newItem": "New Item",
-  "updateItem": "Update Item"
+  "updateItem": "Update Item",
+  "itemCreatedSuccessfully": "Item created successfully"
 }

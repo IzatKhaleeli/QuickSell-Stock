@@ -21,7 +21,6 @@ class ItemsState extends ChangeNotifier {
       List<ItemModel> fetchedItems =
           await ItemService.fetchItems(context, storeId);
       _item = fetchedItems;
-      debugPrint("fetchedItems :${_item.toString()}");
     } catch (e) {
       _errorMessage = "Failed to load items: $e";
       _item = [];
@@ -97,33 +96,29 @@ class ItemsState extends ChangeNotifier {
 
   Future<String?> postItem(
     BuildContext context,
-    ItemModel item,
+    Map<String, dynamic> body,
+    Map<String, String> headers,
   ) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      Map<String, dynamic> body = {
-        "Price": item.sellingPrice,
-        "ActualPrice": item.purchasePrice,
-        "ItemName": item.itemName,
-        "StoreID": 1,
-        "IsActive": true,
-      };
-
-      final response = await ItemService.updateItem(
-          context: context, body: body, itemId: item.itemId.toString());
+      final response = await ItemService.insertItem(
+        headers: headers,
+        context: context,
+        body: body,
+      );
 
       if (response['success'] == true &&
           (response['status'] == 200 || response['status'] == 201)) {
         return null;
       } else {
-        _errorMessage = "Failed to update item: ${response['error']}";
+        _errorMessage = "Failed to create item: ${response['error']}";
         return _errorMessage;
       }
     } catch (e) {
-      _errorMessage = "Failed to update item: $e";
+      _errorMessage = "Failed to create item: $e";
       return _errorMessage;
     } finally {
       _isLoading = false;

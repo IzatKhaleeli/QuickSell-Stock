@@ -26,7 +26,7 @@ class ApiRequest {
           "Content-Type": "application/json",
         },
       ).timeout(timeoutDuration, onTimeout: _onTimeout);
-      print("the response is :${response.body}");
+      print("response: ${response.body}");
 
       return await _handleResponse(
         response,
@@ -48,15 +48,18 @@ class ApiRequest {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token') ?? '';
-      final response = await http.delete(
-        Uri.parse(endpoint),
-        headers: {
-          "Authorization": "Bearer $token",
-          "Content-Type": "application/json",
-        },
-      ).timeout(timeoutDuration, onTimeout: _onTimeout);
-      print("the response is :${response.body}");
-
+      Map<String, String> headers = {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      };
+      final response = await http
+          .delete(
+            Uri.parse(endpoint),
+            headers: headers,
+          )
+          .timeout(timeoutDuration, onTimeout: _onTimeout);
+      print("delete request: ${headers}\n${endpoint}}");
+      print("response: ${response.body}");
       return await _handleResponse(
         response,
         context,
@@ -93,7 +96,8 @@ class ApiRequest {
             headers: mergedHeaders,
           )
           .timeout(timeoutDuration, onTimeout: _onTimeout);
-
+      print("post request:${mergedHeaders}\n${endpoint}\n${json.encode(body)}");
+      print("response: ${response.body}");
       return await _handleResponse(
         response,
         context,

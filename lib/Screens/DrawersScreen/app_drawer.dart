@@ -15,9 +15,12 @@ import 'ManagementScreen/UpdateItemScreen.dart';
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
-  Future<String?> _getUserName() async {
+  Future<Map<String, String?>> _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('username');
+    return {
+      'username': prefs.getString('username'),
+      'role': prefs.getString('role'),
+    };
   }
 
   @override
@@ -31,8 +34,8 @@ class AppDrawer extends StatelessWidget {
     return SizedBox(
       width: drawerWidth,
       child: Drawer(
-        child: FutureBuilder<String?>(
-          future: _getUserName(),
+        child: FutureBuilder<Map<String, String?>>(
+          future: _getUserInfo(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -44,7 +47,9 @@ class AppDrawer extends StatelessWidget {
                 ),
               );
             } else if (snapshot.hasData) {
-              final userName = snapshot.data;
+              final userName = snapshot.data?['username'];
+              final role = snapshot.data?['role'];
+              final isAdmin = (role ?? '').toLowerCase() == 'admin';
               return ListView(
                 padding: EdgeInsets.zero,
                 children: [
@@ -70,16 +75,17 @@ class AppDrawer extends StatelessWidget {
                       );
                     },
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.bar_chart),
-                    title: Text(appLocalization.getLocalizedString("report")),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(
-                        AppRouteTransition(page: ReportScreen()),
-                      );
-                    },
-                  ),
+                  if (isAdmin)
+                    ListTile(
+                      leading: const Icon(Icons.bar_chart),
+                      title: Text(appLocalization.getLocalizedString("report")),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.of(context).push(
+                          AppRouteTransition(page: ReportScreen()),
+                        );
+                      },
+                    ),
                   Theme(
                     data: Theme.of(context).copyWith(
                       dividerColor: Colors.transparent,
@@ -113,22 +119,24 @@ class AppDrawer extends StatelessWidget {
                             );
                           },
                         ),
-                        const SizedBox(height: 8),
-                        ListTile(
-                          leading: const Icon(Icons.edit),
-                          title: Text(
-                            appLocalization.getLocalizedString("updateItem"),
+                        if (isAdmin) ...[
+                          const SizedBox(height: 8),
+                          ListTile(
+                            leading: const Icon(Icons.edit),
+                            title: Text(
+                              appLocalization.getLocalizedString("updateItem"),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 24.0, vertical: 6.0),
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.of(context).push(
+                                AppRouteTransition(
+                                    page: const UpdateItemScreen()),
+                              );
+                            },
                           ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 24.0, vertical: 6.0),
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.of(context).push(
-                              AppRouteTransition(
-                                  page: const UpdateItemScreen()),
-                            );
-                          },
-                        ),
+                        ],
                       ],
                     ),
                   ),

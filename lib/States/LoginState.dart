@@ -57,11 +57,13 @@ class LoginState with ChangeNotifier {
         if (result['data'] != null && result['data'].containsKey('token')) {
           String token = result['data']['token'].toString();
           String userId = result['data']['userId'].toString();
-
+          String role = result['data']['role'].toString();
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('username', username.toLowerCase());
           await prefs.setString('userId', userId);
           await prefs.setString('token', token);
+          await prefs.setString('role', role);
+
           await prefs.setBool('isLoggedIn', true);
 
           return {
