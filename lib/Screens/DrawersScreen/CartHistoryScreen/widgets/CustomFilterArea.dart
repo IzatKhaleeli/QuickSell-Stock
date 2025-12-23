@@ -14,28 +14,31 @@ import '../../../LoginScreen/Custom_Widgets/CustomFailedPopup.dart';
 class CustomFilterArea extends StatefulWidget {
   final LocalizationService appLocalization;
 
-  const CustomFilterArea({Key? key, required this.appLocalization}) : super(key: key);
+  const CustomFilterArea({Key? key, required this.appLocalization})
+      : super(key: key);
 
   @override
   State<CustomFilterArea> createState() => _CustomFilterAreaState();
 }
 
 class _CustomFilterAreaState extends State<CustomFilterArea> {
-  DateTime fromDate = DateTime.now();  // Initially empty
-  DateTime toDate = DateTime.now();    // Initially empty
+  DateTime fromDate = DateTime.now(); // Initially empty
+  DateTime toDate = DateTime.now(); // Initially empty
   final DateFormat _dateFormat = DateFormat('dd MMM yyyy');
 
   @override
   void initState() {
     super.initState();
     // Set initial dates to today's date
-    fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day);  // Reset to 00:00:00
+    fromDate = DateTime(
+        fromDate.year, fromDate.month, fromDate.day); // Reset to 00:00:00
     toDate = DateTime(toDate.year, toDate.month, toDate.day);
   }
 
   Future<void> _selectDate(bool isFrom) async {
-    final DateTime initialDate = isFrom ? (fromDate ?? DateTime.now()) : (toDate ?? DateTime.now());
-    print("Initial Date: $initialDate");  // Debugging line
+    final DateTime initialDate =
+        isFrom ? (fromDate ?? DateTime.now()) : (toDate ?? DateTime.now());
+    print("Initial Date: $initialDate"); // Debugging line
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: initialDate,
@@ -47,14 +50,18 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
         if (isFrom) {
           // If 'fromDate' is picked, check if it's after 'toDate'
           fromDate = picked;
-          if (toDate != null && fromDate != null && fromDate!.isAfter(toDate!)) {
+          if (toDate != null &&
+              fromDate != null &&
+              fromDate!.isAfter(toDate!)) {
             // If 'fromDate' is after 'toDate', set 'toDate' to 'fromDate'
             toDate = fromDate;
           }
         } else {
           // If 'toDate' is picked, check if it's before 'fromDate'
           toDate = picked;
-          if (fromDate != null && toDate != null && toDate!.isBefore(fromDate!)) {
+          if (fromDate != null &&
+              toDate != null &&
+              toDate!.isBefore(fromDate!)) {
             // If 'toDate' is before 'fromDate', set 'fromDate' to 'toDate'
             fromDate = toDate;
           }
@@ -63,22 +70,25 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
     }
   }
 
-  Widget _buildDateBox(String label, DateTime? date, bool isFrom, double scale) {
+  Widget _buildDateBox(
+      String label, DateTime? date, bool isFrom, double scale) {
     return GestureDetector(
-      onTap: () => _selectDate(isFrom),  // Make the entire field tappable
+      onTap: () => _selectDate(isFrom), // Make the entire field tappable
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         child: Row(
           children: [
-            Icon(Icons.calendar_today, color: AppColors.secondaryColor, size: 20 * scale),
+            Icon(Icons.calendar_today,
+                color: AppColors.secondaryColor, size: 20 * scale),
             const SizedBox(width: 8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.appLocalization.getLocalizedString(isFrom ? 'dateFrom' : 'dateTo'),
-                    style: TextStyle(fontSize: 12 * scale, color: Colors.grey[700]),
+                    widget.appLocalization
+                        .getLocalizedString(isFrom ? 'dateFrom' : 'dateTo'),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[700]),
                   ),
                   const SizedBox(height: 4),
                   Row(
@@ -87,7 +97,7 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
                         child: Text(
                           date != null ? _dateFormat.format(date) : '--',
                           style: TextStyle(
-                            fontSize: 14 * scale,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: Colors.black87,
                           ),
@@ -126,16 +136,26 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
               // Stack vertically on smaller screens
               return Column(
                 children: [
-                  _buildDateBox(widget.appLocalization.getLocalizedString('dateFrom'), fromDate, true, scale),
+                  _buildDateBox(
+                      widget.appLocalization.getLocalizedString('dateFrom'),
+                      fromDate,
+                      true,
+                      scale),
                   const SizedBox(height: 2),
-                  _buildDateBox(widget.appLocalization.getLocalizedString('dateTo'), toDate, false, scale),
+                  _buildDateBox(
+                      widget.appLocalization.getLocalizedString('dateTo'),
+                      toDate,
+                      false,
+                      scale),
                   const SizedBox(height: 2),
                   Align(
                     alignment: Alignment.centerRight,
                     child: IconButton(
                       iconSize: 24 * scale,
-                      icon: const Icon(Icons.filter_alt, color: AppColors.secondaryColor),
-                      tooltip: widget.appLocalization.getLocalizedString('filter'),
+                      icon: const Icon(Icons.filter_alt,
+                          color: AppColors.secondaryColor),
+                      tooltip:
+                          widget.appLocalization.getLocalizedString('filter'),
                       onPressed: _applyFilter,
                     ),
                   ),
@@ -146,18 +166,28 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
               return Row(
                 children: [
                   Expanded(
-                    child: _buildDateBox(widget.appLocalization.getLocalizedString('dateFrom'), fromDate, true, scale),
+                    child: _buildDateBox(
+                        widget.appLocalization.getLocalizedString('dateFrom'),
+                        fromDate,
+                        true,
+                        scale),
                   ),
                   Container(
                     height: 40, // Set a fixed height for the divider
                     child: const VerticalDivider(
-                      color: AppColors.hintTextColor, // Set your desired color for the divider
-                      thickness: 1.0, // Adjust the thickness of the divider line
+                      color: AppColors
+                          .hintTextColor, // Set your desired color for the divider
+                      thickness:
+                          1.0, // Adjust the thickness of the divider line
                       width: 20, // Space around the divider
                     ),
                   ),
                   Expanded(
-                    child: _buildDateBox(widget.appLocalization.getLocalizedString('dateTo'), toDate, false, scale),
+                    child: _buildDateBox(
+                        widget.appLocalization.getLocalizedString('dateTo'),
+                        toDate,
+                        false,
+                        scale),
                   ),
                   Align(
                     alignment: Alignment.centerRight,
@@ -168,12 +198,13 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
                       ),
                       child: IconButton(
                         iconSize: 24 * scale,
-                        icon: const Icon(Icons.search, color: AppColors.primaryColor),
-                        tooltip: widget.appLocalization.getLocalizedString('filter'),
+                        icon: const Icon(Icons.search,
+                            color: AppColors.primaryColor),
+                        tooltip:
+                            widget.appLocalization.getLocalizedString('filter'),
                         onPressed: _applyFilter,
                       ),
                     ),
-
                   ),
                 ],
               );
@@ -200,7 +231,9 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
     if (fromDate == null || toDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(widget.appLocalization.getLocalizedString('pleaseSelectDateRange') ?? 'Please select both From and To dates'),
+          content: Text(widget.appLocalization
+                  .getLocalizedString('pleaseSelectDateRange') ??
+              'Please select both From and To dates'),
           backgroundColor: Colors.red,
         ),
       );
@@ -211,8 +244,10 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
     String toDateStr = DateHelper.formatDateOnly(toDate);
     showLoadingAvatar(context);
     try {
-      List<CartModel> historyCarts = await CartService.fetchCarts(context, fromDateStr, toDateStr);
-      HistoryCartState historyCartState = Provider.of<HistoryCartState>(context, listen: false);
+      List<CartModel> historyCarts =
+          await CartService.fetchCarts(context, fromDateStr, toDateStr);
+      HistoryCartState historyCartState =
+          Provider.of<HistoryCartState>(context, listen: false);
       historyCartState.carts = historyCarts;
       Navigator.of(context).pop(); // Always remove the loading avatar
     } catch (e) {

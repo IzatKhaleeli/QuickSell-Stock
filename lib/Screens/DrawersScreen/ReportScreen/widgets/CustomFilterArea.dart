@@ -5,12 +5,12 @@ import '../../../../Services/LocalizationService.dart';
 
 class CustomFilterArea extends StatefulWidget {
   final LocalizationService appLocalization;
-  final Function(DateTime, DateTime) onDateRangeSelected;  // Add this callback
+  final Function(DateTime, DateTime) onDateRangeSelected; // Add this callback
 
   const CustomFilterArea({
     Key? key,
     required this.appLocalization,
-    required this.onDateRangeSelected,  // Add the callback parameter
+    required this.onDateRangeSelected, // Add the callback parameter
   }) : super(key: key);
 
   @override
@@ -18,21 +18,23 @@ class CustomFilterArea extends StatefulWidget {
 }
 
 class _CustomFilterAreaState extends State<CustomFilterArea> {
-  DateTime fromDate = DateTime.now();  // Initially empty
-  DateTime toDate = DateTime.now();    // Initially empty
+  DateTime fromDate = DateTime.now(); // Initially empty
+  DateTime toDate = DateTime.now(); // Initially empty
   final DateFormat _dateFormat = DateFormat('dd MMM yyyy');
 
   @override
   void initState() {
     super.initState();
     // Set initial dates to today's date
-    fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day);  // Reset to 00:00:00
+    fromDate = DateTime(
+        fromDate.year, fromDate.month, fromDate.day); // Reset to 00:00:00
     toDate = DateTime(toDate.year, toDate.month, toDate.day);
   }
 
   Future<void> _selectDate(bool isFrom) async {
-    final DateTime initialDate = isFrom ? (fromDate ?? DateTime.now()) : (toDate ?? DateTime.now());
-    print("Initial Date: $initialDate");  // Debugging line
+    final DateTime initialDate =
+        isFrom ? (fromDate ?? DateTime.now()) : (toDate ?? DateTime.now());
+    print("Initial Date: $initialDate"); // Debugging line
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: initialDate,
@@ -44,26 +46,31 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
         if (isFrom) {
           // If 'fromDate' is picked, check if it's after 'toDate'
           fromDate = picked;
-          if (toDate != null && fromDate != null && fromDate!.isAfter(toDate!)) {
+          if (toDate != null &&
+              fromDate != null &&
+              fromDate!.isAfter(toDate!)) {
             // If 'fromDate' is after 'toDate', set 'toDate' to 'fromDate'
             toDate = fromDate;
           }
         } else {
           // If 'toDate' is picked, check if it's before 'fromDate'
           toDate = picked;
-          if (fromDate != null && toDate != null && toDate!.isBefore(fromDate!)) {
+          if (fromDate != null &&
+              toDate != null &&
+              toDate!.isBefore(fromDate!)) {
             // If 'toDate' is before 'fromDate', set 'fromDate' to 'toDate'
             fromDate = toDate;
           }
         }
       });
-      widget.onDateRangeSelected(fromDate, toDate); // Pass the selected dates back to ReportScreen
+      widget.onDateRangeSelected(
+          fromDate, toDate); // Pass the selected dates back to ReportScreen
     }
   }
 
   Widget _buildDateBox(String label, DateTime? date, bool isFrom) {
     return GestureDetector(
-      onTap: () => _selectDate(isFrom),  // Make the entire field tappable
+      onTap: () => _selectDate(isFrom), // Make the entire field tappable
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         child: Row(
@@ -75,7 +82,8 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.appLocalization.getLocalizedString(isFrom ? 'dateFrom' : 'dateTo'),
+                    widget.appLocalization
+                        .getLocalizedString(isFrom ? 'dateFrom' : 'dateTo'),
                     style: TextStyle(fontSize: 12, color: Colors.grey[700]),
                   ),
                   const SizedBox(height: 4),
@@ -84,7 +92,10 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
                       Expanded(
                         child: Text(
                           date != null ? _dateFormat.format(date) : '--',
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black87),
+                          style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87),
                         ),
                       ),
                     ],
@@ -117,9 +128,15 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
               // Stack vertically on smaller screens
               return Column(
                 children: [
-                  _buildDateBox(widget.appLocalization.getLocalizedString('dateFrom'), fromDate, true),
+                  _buildDateBox(
+                      widget.appLocalization.getLocalizedString('dateFrom'),
+                      fromDate,
+                      true),
                   const SizedBox(height: 2),
-                  _buildDateBox(widget.appLocalization.getLocalizedString('dateTo'), toDate, false),
+                  _buildDateBox(
+                      widget.appLocalization.getLocalizedString('dateTo'),
+                      toDate,
+                      false),
                 ],
               );
             } else {
@@ -136,8 +153,10 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
                   Container(
                     height: 40, // Set a fixed height for the divider
                     child: const VerticalDivider(
-                      color: AppColors.hintTextColor, // Set your desired color for the divider
-                      thickness: 1.0, // Adjust the thickness of the divider line
+                      color: AppColors
+                          .hintTextColor, // Set your desired color for the divider
+                      thickness:
+                          1.0, // Adjust the thickness of the divider line
                       width: 20, // Space around the divider
                     ),
                   ),
@@ -156,5 +175,4 @@ class _CustomFilterAreaState extends State<CustomFilterArea> {
       ),
     );
   }
-
 }

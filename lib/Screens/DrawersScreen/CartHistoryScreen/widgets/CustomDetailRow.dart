@@ -11,7 +11,6 @@ class CustomDetailRow extends StatelessWidget {
     Key? key,
     required this.title,
     required this.value,
-
   }) : super(key: key);
 
   @override
@@ -24,7 +23,7 @@ class CustomDetailRow extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 13,
               fontWeight: FontWeight.w400,
               color: AppColors.primaryColor,
             ),
@@ -32,7 +31,7 @@ class CustomDetailRow extends StatelessWidget {
           Text(
             value,
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 13,
               fontWeight: FontWeight.w600,
               color: AppColors.primaryColor,
             ),

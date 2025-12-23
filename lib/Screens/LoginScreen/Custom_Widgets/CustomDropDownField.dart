@@ -17,7 +17,6 @@ class CustomDropdownField<T> extends StatelessWidget {
   final Color borderColor;
   final Color arrowColor;
 
-
   const CustomDropdownField({
     Key? key,
     required this.label,
@@ -31,7 +30,7 @@ class CustomDropdownField<T> extends StatelessWidget {
     this.textColor = Colors.black,
     this.hintColor = Colors.grey,
     this.borderColor = Colors.grey,
-    this.arrowColor =  const Color(0xFFF9AA33),
+    this.arrowColor = const Color(0xFFF9AA33),
   }) : super(key: key);
 
   @override
@@ -70,7 +69,7 @@ class CustomDropdownField<T> extends StatelessWidget {
               isExpanded: isExpanded,
               hint: Text(
                 isDisabled ? "No options available" : hint,
-                style: TextStyle(color: hintColor, fontSize: 14 * scale),
+                style: TextStyle(color: hintColor, fontSize: 13),
               ),
               onChanged: onChanged,
               items: items.map((T value) {
@@ -78,14 +77,15 @@ class CustomDropdownField<T> extends StatelessWidget {
                   value: value,
                   child: Text(
                     itemLabel != null ? itemLabel!(value) : value.toString(),
-                    style: TextStyle(color: textColor, fontSize: 14 * scale),
+                    style: TextStyle(color: textColor, fontSize: 13),
                   ),
                 );
               }).toList(),
               iconEnabledColor: arrowColor,
               disabledHint: Text(
-                Provider.of<LocalizationService>(context, listen: false).getLocalizedString("noDataAvailable"),//noDataAvailable
-                style: TextStyle(color: hintColor, fontSize: 14 * scale),
+                Provider.of<LocalizationService>(context, listen: false)
+                    .getLocalizedString("noDataAvailable"), //noDataAvailable
+                style: TextStyle(color: hintColor, fontSize: 13),
               ),
             ),
           ),

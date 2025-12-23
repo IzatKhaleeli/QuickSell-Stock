@@ -18,7 +18,8 @@ class CustomDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
 
     final screenWidth = MediaQuery.of(context).size.width;
     final scale = (screenWidth / 390).clamp(0.85, 1.2);
@@ -48,7 +49,7 @@ class CustomDropdown extends StatelessWidget {
           value: selectedValue,
           hint: Text(
             appLocalization.getLocalizedString("selectExpense"),
-            style: TextStyle(fontSize: 14 * scale),
+            style: TextStyle(fontSize: 13),
           ),
           isExpanded: true,
           items: expenses.map((item) {
@@ -56,7 +57,7 @@ class CustomDropdown extends StatelessWidget {
               value: item['id'], // value passed in callback
               child: Text(
                 item['name'] ?? '',
-                style: TextStyle(fontSize: 14 * scale),
+                style: TextStyle(fontSize: 13),
               ),
             );
           }).toList(),

@@ -5,12 +5,12 @@ class CustomTextField extends StatefulWidget {
   final IconData icon;
   final bool obscureText;
   final ValueChanged<String> onChanged;
-  final Color textColor;  // Color for text (required)
-  final Color hintColor;  // Color for hint text (required)
-  final Color iconColor;  // Color for icon (required)
-  final Color borderColor;  // Color for the border (required)
-  final Color fillColor;  // Color for the fill (required)
-  final Color backgroundColor;  // Color for background (required)
+  final Color textColor; // Color for text (required)
+  final Color hintColor; // Color for hint text (required)
+  final Color iconColor; // Color for icon (required)
+  final Color borderColor; // Color for the border (required)
+  final Color fillColor; // Color for the fill (required)
+  final Color backgroundColor; // Color for background (required)
 
   const CustomTextField({
     required this.hint,
@@ -36,12 +36,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   void initState() {
     super.initState();
-    _isObscured = widget.obscureText;  // Initially uses the value from widget
+    _isObscured = widget.obscureText; // Initially uses the value from widget
   }
 
   void _togglePasswordVisibility() {
     setState(() {
-      _isObscured = !_isObscured;  // Toggle the obscured state
+      _isObscured = !_isObscured; // Toggle the obscured state
     });
   }
 
@@ -57,7 +57,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     );
     final hintStyle = TextStyle(
       color: widget.hintColor,
-      fontSize: 14 * scale,
+      fontSize: 13,
     );
     final iconColor = widget.iconColor;
     final fillColor = widget.fillColor;
@@ -86,13 +86,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
           prefixIcon: Icon(widget.icon, color: iconColor, size: 24 * scale),
           suffixIcon: widget.obscureText
               ? IconButton(
-            icon: Icon(
-              _isObscured ? Icons.visibility_off : Icons.visibility,
-              size: 24 * scale,
-            ),
-            color: iconColor,
-            onPressed: _togglePasswordVisibility,
-          )
+                  icon: Icon(
+                    _isObscured ? Icons.visibility_off : Icons.visibility,
+                    size: 24 * scale,
+                  ),
+                  color: iconColor,
+                  onPressed: _togglePasswordVisibility,
+                )
               : null,
           filled: true,
           fillColor: fillColor,

@@ -34,10 +34,7 @@ class _MainScreenState extends State<MainScreen> {
       OtherSellScreen(),
       CartScreen(),
     ];
-
   }
-
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -47,22 +44,22 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
-    final storesState = Provider.of<StoresState>(context);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
     final screenSize = MediaQuery.of(context).size;
     final scale = (screenSize.width / 390).clamp(0.8, 1.2);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "${storesState.selectedStore?["address"]}" ?? "Main Screen",
-          style: TextStyle(fontSize: 18 * scale),
+          "Main Screen",
+          style: TextStyle(fontSize: 18),
         ),
         backgroundColor: AppColors.cardBackgroundColor,
         elevation: 1,
       ),
       body: _screens[_selectedIndex], // Display the selected screen
-      drawer: _buildDrawer(context,appLocalization),
+      drawer: _buildDrawer(context, appLocalization),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [
@@ -79,21 +76,21 @@ class _MainScreenState extends State<MainScreen> {
           selectedItemColor: AppColors.primaryTextColor,
           unselectedItemColor: Colors.grey,
           showUnselectedLabels: true,
-          selectedLabelStyle: TextStyle(fontSize: 12 * scale),
-          unselectedLabelStyle: TextStyle(fontSize: 12 * scale),
+          selectedLabelStyle: TextStyle(fontSize: 12),
+          unselectedLabelStyle: TextStyle(fontSize: 12),
           backgroundColor: AppColors.cardBackgroundColor,
           onTap: _onItemTapped,
-          items:  [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.store, size: 20 * scale),
+              icon: Icon(FontAwesomeIcons.store, size: 18),
               label: appLocalization.getLocalizedString("sales"),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.sell, size: 20 * scale),
-              label:  appLocalization.getLocalizedString("expenses"),
+              icon: Icon(Icons.sell, size: 18),
+              label: appLocalization.getLocalizedString("expenses"),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart, size: 20 * scale),
+              icon: Icon(Icons.shopping_cart, size: 18),
               label: appLocalization.getLocalizedString("cart"),
             ),
           ],
@@ -103,7 +100,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   // Use FutureBuilder to handle async data
-  FutureBuilder<String?> _buildDrawer(BuildContext context,LocalizationService appLocalization) {
+  FutureBuilder<String?> _buildDrawer(
+      BuildContext context, LocalizationService appLocalization) {
     final screenSize = MediaQuery.of(context).size;
     final scale = (screenSize.width / 390).clamp(0.8, 1.2);
     final drawerWidth = (screenSize.width * 0.8).clamp(250.0, 320.0);
@@ -119,11 +117,11 @@ class _MainScreenState extends State<MainScreen> {
           ); // Loading state
         } else if (snapshot.hasError) {
           drawerContent = Drawer(
-            child: Center(child:
-            Text(
-              appLocalization.getLocalizedString("errorLoadingData"),
-              style: TextStyle(fontSize: 14 * scale),
-            ),
+            child: Center(
+              child: Text(
+                appLocalization.getLocalizedString("errorLoadingData"),
+                style: TextStyle(fontSize: 13),
+              ),
             ),
           ); // Error state
         } else if (snapshot.hasData) {
@@ -137,13 +135,16 @@ class _MainScreenState extends State<MainScreen> {
                   accountEmail: Text(""),
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: AppColors.backgroundColor,
-                    child: Icon(Icons.person, size: 50 * scale, color: Colors.black),
+                    child: Icon(Icons.person,
+                        size: 50 * scale, color: Colors.black),
                   ),
-                  decoration: const BoxDecoration(color: AppColors.primaryColor),
+                  decoration:
+                      const BoxDecoration(color: AppColors.primaryColor),
                 ),
                 ListTile(
                   leading: Icon(Icons.history),
-                  title: Text(appLocalization.getLocalizedString("historyCart")),
+                  title:
+                      Text(appLocalization.getLocalizedString("historyCart")),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.of(context).push(
@@ -163,17 +164,21 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.language),
-                  title: Text(appLocalization.getLocalizedString("changeLanguage")),
+                  title: Text(
+                      appLocalization.getLocalizedString("changeLanguage")),
                   onTap: () async {
                     showLoadingAvatar(context);
                     await Future.delayed(Duration(seconds: 1));
                     String currentLang = appLocalization.selectedLanguageCode;
                     String newLang = currentLang == 'en' ? 'ar' : 'en';
                     appLocalization.selectedLanguageCode = newLang;
-                    Navigator.popUntil(context, (route) => false);  // This will pop all routes
+                    Navigator.popUntil(
+                        context, (route) => false); // This will pop all routes
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MainScreen()),  // Push the CartScreen
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              MainScreen()), // Push the CartScreen
                     );
                   },
                 ),
@@ -185,52 +190,69 @@ class _MainScreenState extends State<MainScreen> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          title: Center(  // Center the title
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          title: Center(
+                            // Center the title
                             child: Text(
                               appLocalization.getLocalizedString("about"),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                                fontSize: 18,
                               ),
                             ),
                           ),
-                          content: Directionality(   // Force LTR inside content
+                          content: Directionality(
+                            // Force LTR inside content
                             textDirection: TextDirection.ltr,
                             child: SingleChildScrollView(
                               child: ListBody(
                                 children: <Widget>[
                                   Text(
                                     'App Name:',
-                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 8.0, bottom: 12),
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, bottom: 12),
                                     child: Text(
                                       'Quick Sell',
-                                      style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 13),
                                     ),
                                   ),
                                   Text(
                                     'Store:',
-                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 8.0, bottom: 12),
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, bottom: 12),
                                     child: Text(
                                       'GE',
-                                      style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 13),
                                     ),
                                   ),
                                   Text(
                                     'Version:',
-                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: Text(
                                       '1.0.0',
-                                      style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 13),
                                     ),
                                   ),
                                 ],
@@ -260,20 +282,26 @@ class _MainScreenState extends State<MainScreen> {
                     // Show the custom dialog to confirm logout
                     CustomPopups.showCustomDialog(
                       context: context,
-                      icon: Icon(Icons.exit_to_app, size: 40, color: AppColors.secondaryColor), // Custom icon for logout
-                      title: appLocalization.getLocalizedString("logoutConfirmationTitle"), // Title for the popup
-                      message: appLocalization.getLocalizedString("logoutConfirmationBody"),
-                      deleteButtonText: appLocalization.getLocalizedString("logout"), // Button to confirm logout
+                      icon: Icon(Icons.exit_to_app,
+                          size: 40,
+                          color: AppColors
+                              .secondaryColor), // Custom icon for logout
+                      title: appLocalization.getLocalizedString(
+                          "logoutConfirmationTitle"), // Title for the popup
+                      message: appLocalization
+                          .getLocalizedString("logoutConfirmationBody"),
+                      deleteButtonText: appLocalization.getLocalizedString(
+                          "logout"), // Button to confirm logout
                       onPressButton: () {
                         showLoadingAvatar(context);
 
                         Future.delayed(const Duration(milliseconds: 1000), () {
                           Navigator.pop(context);
                           Navigator.pop(context);
-                          Provider.of<LoginState>(context, listen: false).logout(context);
+                          Provider.of<LoginState>(context, listen: false)
+                              .logout(context);
                         });
                       },
-
                     );
                   },
                 ),
@@ -281,7 +309,9 @@ class _MainScreenState extends State<MainScreen> {
             ),
           );
         } else {
-          drawerContent = Center(child: Text(appLocalization.getLocalizedString("noDataAvailable"), style: TextStyle(fontSize: 14 * scale)));
+          drawerContent = Center(
+              child: Text(appLocalization.getLocalizedString("noDataAvailable"),
+                  style: TextStyle(fontSize: 13)));
         }
         return SizedBox(
           width: drawerWidth,
@@ -297,4 +327,5 @@ class _MainScreenState extends State<MainScreen> {
   Future<String?> _getUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('username'); // Fetch the username
-  }}
+  }
+}

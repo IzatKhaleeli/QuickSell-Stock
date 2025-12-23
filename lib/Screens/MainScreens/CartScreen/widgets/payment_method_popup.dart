@@ -9,7 +9,8 @@ enum PaymentMethod { visa, cash, mix }
 
 class PaymentMethodPopup extends StatefulWidget {
   final double total;
-  final Function(PaymentMethod method, double cashAmount, double visaAmount) onSubmit;
+  final Function(PaymentMethod method, double cashAmount, double visaAmount)
+      onSubmit;
 
   const PaymentMethodPopup({
     super.key,
@@ -33,7 +34,8 @@ class _PaymentMethodPopupState extends State<PaymentMethodPopup> {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
 
     final screenSize = MediaQuery.of(context).size;
     final scale = (screenSize.width / 390).clamp(0.7, 1.2);
@@ -60,16 +62,17 @@ class _PaymentMethodPopupState extends State<PaymentMethodPopup> {
         runSpacing: 8,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Text(appLocalization.getLocalizedString("choosePaymentMethod"),
+          Text(
+            appLocalization.getLocalizedString("choosePaymentMethod"),
             style: TextStyle(
               color: AppColors.hintTextColor,
-              fontSize: 14 * scale,
+              fontSize: 13,
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
             total.toStringAsFixed(2),
-            style: TextStyle(fontSize: 14 * scale, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -84,7 +87,7 @@ class _PaymentMethodPopupState extends State<PaymentMethodPopup> {
                 scale: 1 / scale,
                 child: Text(
                   appLocalization.getLocalizedString("visa"),
-                  style: TextStyle(fontSize: 14 * scale),
+                  style: TextStyle(fontSize: 13),
                 ),
               ),
               value: PaymentMethod.visa,
@@ -105,7 +108,7 @@ class _PaymentMethodPopupState extends State<PaymentMethodPopup> {
                 scale: 1 / scale,
                 child: Text(
                   appLocalization.getLocalizedString("cash"),
-                  style: TextStyle(fontSize: 14 * scale),
+                  style: TextStyle(fontSize: 13),
                 ),
               ),
               value: PaymentMethod.cash,
@@ -126,7 +129,7 @@ class _PaymentMethodPopupState extends State<PaymentMethodPopup> {
                 scale: 1 / scale,
                 child: Text(
                   appLocalization.getLocalizedString("visaAndCash"),
-                  style: TextStyle(fontSize: 14 * scale),
+                  style: TextStyle(fontSize: 13),
                 ),
               ),
               value: PaymentMethod.mix,
@@ -148,20 +151,27 @@ class _PaymentMethodPopupState extends State<PaymentMethodPopup> {
               ],
               decoration: InputDecoration(
                 labelText: appLocalization.getLocalizedString("cashAmount"),
-                labelStyle: TextStyle(fontSize: 14 * scale),
+                labelStyle: TextStyle(fontSize: 13),
                 filled: true,
                 fillColor: AppColors.backgroundColor,
               ),
-              style: TextStyle(fontSize: 14 * scale),
+              style: TextStyle(fontSize: 13),
               onChanged: (_) => setState(() {}),
             ),
           const SizedBox(height: 10),
           if (_selectedMethod == PaymentMethod.cash)
-            Text("${appLocalization.getLocalizedString("cash")}: ${cashAmount.toStringAsFixed(2)}",style: TextStyle(fontSize: 14 * scale, fontWeight: FontWeight.w500) ,),
+            Text(
+              "${appLocalization.getLocalizedString("cash")}: ${cashAmount.toStringAsFixed(2)}",
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+            ),
           if (_selectedMethod == PaymentMethod.visa)
-            Text("${appLocalization.getLocalizedString("visa")}: ${visaAmount.toStringAsFixed(2)}",style: TextStyle(fontSize: 14 * scale, fontWeight: FontWeight.w500)),
+            Text(
+                "${appLocalization.getLocalizedString("visa")}: ${visaAmount.toStringAsFixed(2)}",
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
           if (_selectedMethod == PaymentMethod.mix)
-            Text("${appLocalization.getLocalizedString("cash")}: ${cashAmount.toStringAsFixed(2)}, ${appLocalization.getLocalizedString("visa")}: ${visaAmount.toStringAsFixed(2)}",style: TextStyle(fontSize: 14 * scale, fontWeight: FontWeight.w500)),
+            Text(
+                "${appLocalization.getLocalizedString("cash")}: ${cashAmount.toStringAsFixed(2)}, ${appLocalization.getLocalizedString("visa")}: ${visaAmount.toStringAsFixed(2)}",
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
         ],
       ),
       actions: [
@@ -170,17 +180,19 @@ class _PaymentMethodPopupState extends State<PaymentMethodPopup> {
           children: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text(appLocalization.getLocalizedString("cancel"),
-                  style: TextStyle(fontSize: 14 * scale),
-                  ),
+              child: Text(
+                appLocalization.getLocalizedString("cancel"),
+                style: TextStyle(fontSize: 13),
+              ),
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 widget.onSubmit(_selectedMethod, cashAmount, visaAmount);
               },
-              child: Text(appLocalization.getLocalizedString("submit"),
-                style: TextStyle(fontSize: 14 * scale),
+              child: Text(
+                appLocalization.getLocalizedString("submit"),
+                style: TextStyle(fontSize: 13),
               ),
             ),
           ],

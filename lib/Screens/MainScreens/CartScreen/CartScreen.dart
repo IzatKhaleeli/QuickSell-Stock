@@ -18,7 +18,8 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
     final screenSize = MediaQuery.of(context).size;
     final scale = (screenSize.width / 390).clamp(0.70, 1.2);
     final scale2 = (screenSize.width / 390).clamp(0.70, double.infinity);
@@ -74,10 +75,22 @@ class CartScreen extends StatelessWidget {
                               children: [
                                 TableRow(
                                   children: [
-                                    _buildTableHeaderCell(appLocalization.getLocalizedString("name"), scale),
-                                    _buildTableHeaderCell(appLocalization.getLocalizedString("sellingPrice"), scale),
-                                    _buildTableHeaderCell(appLocalization.getLocalizedString("actualPrice"), scale),
-                                    _buildTableHeaderCell(appLocalization.getLocalizedString("actions"), scale),
+                                    _buildTableHeaderCell(
+                                        appLocalization
+                                            .getLocalizedString("name"),
+                                        scale),
+                                    _buildTableHeaderCell(
+                                        appLocalization
+                                            .getLocalizedString("sellingPrice"),
+                                        scale),
+                                    _buildTableHeaderCell(
+                                        appLocalization
+                                            .getLocalizedString("actualPrice"),
+                                        scale),
+                                    _buildTableHeaderCell(
+                                        appLocalization
+                                            .getLocalizedString("actions"),
+                                        scale),
                                   ],
                                 ),
                               ],
@@ -93,7 +106,8 @@ class CartScreen extends StatelessWidget {
                                   final item = cartState.itemsList[index];
                                   return CartItem(
                                     item: item,
-                                    isLastItem: index == cartState.itemsList.length - 1,
+                                    isLastItem:
+                                        index == cartState.itemsList.length - 1,
                                   );
                                 },
                               ),
@@ -117,10 +131,9 @@ class CartScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${appLocalization.getLocalizedString(
-                                "totalPrice")}: ${cartState.totalPrice}',
+                            '${appLocalization.getLocalizedString("totalPrice")}: ${cartState.totalPrice}',
                             style: TextStyle(
-                                fontSize: 18 * scale,
+                                fontSize: 16 * scale,
                                 fontWeight: FontWeight.bold),
                           ),
                           IconButton(
@@ -133,23 +146,24 @@ class CartScreen extends StatelessWidget {
                             ),
                             onPressed: cartState.selectedItemId != null
                                 ? () {
-                              CustomPopups.showCustomDialog(
-                                context: context,
-                                icon: const Icon(
-                                    Icons.warning, color: Color(0xFFFF7043)),
-                                title: appLocalization.getLocalizedString(
-                                    "deleteConfirmationTitle"),
-                                message: appLocalization.getLocalizedString(
-                                    "deleteConfirmationBody"),
-                                deleteButtonText: appLocalization
-                                    .getLocalizedString("delete"),
-                                onPressButton: () {
-                                  // Clear the cart on confirmation
-                                  cartState.deleteItemCart(
-                                      cartState.selectedItemId!);
-                                },
-                              );
-                            }
+                                    CustomPopups.showCustomDialog(
+                                      context: context,
+                                      icon: const Icon(Icons.warning,
+                                          color: Color(0xFFFF7043)),
+                                      title: appLocalization.getLocalizedString(
+                                          "deleteConfirmationTitle"),
+                                      message:
+                                          appLocalization.getLocalizedString(
+                                              "deleteConfirmationBody"),
+                                      deleteButtonText: appLocalization
+                                          .getLocalizedString("delete"),
+                                      onPressButton: () {
+                                        // Clear the cart on confirmation
+                                        cartState.deleteItemCart(
+                                            cartState.selectedItemId!);
+                                      },
+                                    );
+                                  }
                                 : null,
                           ),
                         ],
@@ -163,27 +177,30 @@ class CartScreen extends StatelessWidget {
                 builder: (context, cartState, child) {
                   return cartState.itemsList.isNotEmpty
                       ? Center(
-                        child: SizedBox(
-                    width: screenSize.width * 0.85,
-                    child: CheckoutButton(
-                    onPressed: () async {
-                          bool isConnected = await checkConnectivity();
-                          if (!isConnected) {
-                            showLoginFailedDialog(
-                              context,
-                              appLocalization.getLocalizedString('noInternetConnection'),
-                              appLocalization.getLocalizedString('noInternet'),
-                              appLocalization.selectedLanguageCode,
-                              appLocalization.getLocalizedString('ok'),
-                            );
-                            return;
-                          }
-                          final rootContext = context;
-                          _showPaymentPopup(rootContext, cartState.totalPrice, appLocalization);
-                    },
-                  ),
-                        ),
-                      )
+                          child: SizedBox(
+                            width: screenSize.width * 0.85,
+                            child: CheckoutButton(
+                              onPressed: () async {
+                                bool isConnected = await checkConnectivity();
+                                if (!isConnected) {
+                                  showLoginFailedDialog(
+                                    context,
+                                    appLocalization.getLocalizedString(
+                                        'noInternetConnection'),
+                                    appLocalization
+                                        .getLocalizedString('noInternet'),
+                                    appLocalization.selectedLanguageCode,
+                                    appLocalization.getLocalizedString('ok'),
+                                  );
+                                  return;
+                                }
+                                final rootContext = context;
+                                _showPaymentPopup(rootContext,
+                                    cartState.totalPrice, appLocalization);
+                              },
+                            ),
+                          ),
+                        )
                       : const SizedBox(); // Hide checkout button when empty
                 },
               ),
@@ -197,12 +214,12 @@ class CartScreen extends StatelessWidget {
 
   Widget _buildTableHeaderCell(String text, double scale) {
     return Padding(
-      padding: EdgeInsets.all(8.0 * scale),
+      padding: EdgeInsets.all(4.0 * scale),
       child: Center(
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 14 * scale,
+            fontSize: 13 * scale,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -211,8 +228,8 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-
-  void _showPaymentPopup(BuildContext rootContext, double total, LocalizationService localizationService) {
+  void _showPaymentPopup(BuildContext rootContext, double total,
+      LocalizationService localizationService) {
     showDialog(
       context: rootContext,
       builder: (dialogContext) {
@@ -222,44 +239,50 @@ class CartScreen extends StatelessWidget {
             print("Chosen method: $method");
             print("Cash: $cash, Visa: $visa");
             // Proceed with checkout
-            await _checkout(rootContext, localizationService,cash,visa);
+            await _checkout(rootContext, localizationService, cash, visa);
           },
         );
       },
     );
   }
 
-  Future<void> _checkout(BuildContext context,LocalizationService localizationService,double totalCash,double totalVisa) async {
+  Future<void> _checkout(
+      BuildContext context,
+      LocalizationService localizationService,
+      double totalCash,
+      double totalVisa) async {
     showLoadingAvatar(context);
     final cartState = Provider.of<CartState>(context, listen: false);
 
     try {
-       await CartService.createOrder(context, cartState.itemsList,totalCash,totalVisa);
+      await CartService.createOrder(
+          context, cartState.itemsList, totalCash, totalVisa);
 
-       Navigator.of(context).pop();
-       // Show success message
-       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
-           content: Text("${localizationService.getLocalizedString("createOrderSuccess")}"),
-           backgroundColor: Color(0xFF4CAF50),
-         ),
-       );
+      Navigator.of(context).pop();
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              "${localizationService.getLocalizedString("createOrderSuccess")}"),
+          backgroundColor: Color(0xFF4CAF50),
+        ),
+      );
 
       cartState.clearState();
 
       Navigator.of(context).pushReplacement(
-         _createRoute(MainScreen()), // Navigate to DashboardScreen on successful login
-       );
-
-    }
-    catch (e) {
+        _createRoute(
+            MainScreen()), // Navigate to DashboardScreen on successful login
+      );
+    } catch (e) {
       print("Error _checkout:${e}");
       if (!context.mounted) return;
       Navigator.of(context).pop();
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("${localizationService.getLocalizedString("createOrderFailed")}:${e}"),
+          content: Text(
+              "${localizationService.getLocalizedString("createOrderFailed")}:${e}"),
           backgroundColor: Color(0xFFD32F2F), // Custom red shade
         ),
       );
@@ -274,7 +297,8 @@ class CartScreen extends StatelessWidget {
         const end = 1.0;
         const curve = Curves.slowMiddle;
 
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         var fadeAnimation = animation.drive(tween);
 
         return FadeTransition(

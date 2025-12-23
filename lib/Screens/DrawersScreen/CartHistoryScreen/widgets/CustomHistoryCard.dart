@@ -35,14 +35,15 @@ class _CustomHistoryCardState extends State<CustomHistoryCard> {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
     return Card(
       elevation: 1.5,
       margin: EdgeInsets.symmetric(vertical: 2.h, horizontal: 1.w),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
       child: Theme(
-          data: ThemeData(dividerColor: Colors.transparent),
-      child: ExpansionTile(
+        data: ThemeData(dividerColor: Colors.transparent),
+        child: ExpansionTile(
           iconColor: AppColors.secondaryColor,
           backgroundColor: AppColors.backgroundColor,
           collapsedBackgroundColor: AppColors.backgroundColor,
@@ -55,7 +56,7 @@ class _CustomHistoryCardState extends State<CustomHistoryCard> {
                 DateHelper.formatTransactionDate(widget.transactionDate),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,
+                  fontSize: 13,
                   color: AppColors.primaryTextColor,
                 ),
               ),
@@ -63,7 +64,7 @@ class _CustomHistoryCardState extends State<CustomHistoryCard> {
                 widget.id.toString(),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,  // scaled font size
+                  fontSize: 13, // scaled font size
                   color: AppColors.primaryTextColor,
                 ),
               ),
@@ -76,15 +77,17 @@ class _CustomHistoryCardState extends State<CustomHistoryCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomDetailRow(
-                    title: '${appLocalization.getLocalizedString('transactionDate')}: ',
-                    value:    DateHelper.formatTransactionDateToDate(widget.transactionDate), // Format the date before displaying,
-
+                    title:
+                        '${appLocalization.getLocalizedString('transactionDate')}: ',
+                    value: DateHelper.formatTransactionDateToDate(widget
+                        .transactionDate), // Format the date before displaying,
                   ),
                   const SizedBox(height: 5),
                   CustomDetailRow(
-                    title: '${appLocalization.getLocalizedString('transactionTime')}: ',
-                    value:    DateHelper.formatTransactionDateToTime(widget.transactionDate), // Format the date before displaying,
-
+                    title:
+                        '${appLocalization.getLocalizedString('transactionTime')}: ',
+                    value: DateHelper.formatTransactionDateToTime(widget
+                        .transactionDate), // Format the date before displaying,
                   ),
                   const SizedBox(height: 5),
                   CustomDetailRow(
@@ -93,30 +96,33 @@ class _CustomHistoryCardState extends State<CustomHistoryCard> {
                   ),
                   const SizedBox(height: 5),
                   CustomDetailRow(
-                    title: '${appLocalization.getLocalizedString('createdBy')}: ',
+                    title:
+                        '${appLocalization.getLocalizedString('createdBy')}: ',
                     value: widget.createdBy,
                   ),
                   const SizedBox(height: 5),
                   CustomDetailRow(
-                    title: '${appLocalization.getLocalizedString('totalPrice')}: ',
+                    title:
+                        '${appLocalization.getLocalizedString('totalPrice')}: ',
                     value: widget.totalPrice,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end, // Align buttons to the end
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
                         onPressed: () async {
-                          _handleOrderItemsFetch(context,appLocalization);
+                          _handleOrderItemsFetch(context, appLocalization);
                         },
-                        icon: Icon(Icons.visibility,
-                          size: 24.sp,  // scaled icon size
+                        icon: Icon(
+                          Icons.visibility,
+                          size: 20, // scaled icon size
                         ), // Use an eye icon for the "View" action
                         color: AppColors.secondaryColor, // Set the icon color
-                        tooltip: '${appLocalization.getLocalizedString('view')}', // Tooltip for accessibility
+                        tooltip:
+                            '${appLocalization.getLocalizedString('view')}', // Tooltip for accessibility
                       ),
                     ],
                   )
-
                 ],
               ),
             ),
@@ -125,7 +131,9 @@ class _CustomHistoryCardState extends State<CustomHistoryCard> {
       ),
     );
   }
-  void _handleOrderItemsFetch(BuildContext context,LocalizationService appLocalization) async {
+
+  void _handleOrderItemsFetch(
+      BuildContext context, LocalizationService appLocalization) async {
     try {
       bool isConnected = await checkConnectivity();
       if (!isConnected) {
@@ -140,16 +148,17 @@ class _CustomHistoryCardState extends State<CustomHistoryCard> {
       }
 
       showLoadingAvatar(context);
-      List<ItemCart> itemOrderItems = await CartService.fetchOrderItems(context, widget.id);
-      Navigator.of(context).pop();  // Close the loading indicator
+      List<ItemCart> itemOrderItems =
+          await CartService.fetchOrderItems(context, widget.id);
+      Navigator.of(context).pop(); // Close the loading indicator
       _showItemListDialog(context, itemOrderItems, appLocalization);
-
     } catch (e) {
       Navigator.of(context).pop();
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${appLocalization.getLocalizedString("errorFailedUnexpected")}: ${e.toString()}'),
+          content: Text(
+              '${appLocalization.getLocalizedString("errorFailedUnexpected")}: ${e.toString()}'),
           backgroundColor: Colors.red,
         ),
       );
@@ -157,7 +166,8 @@ class _CustomHistoryCardState extends State<CustomHistoryCard> {
     }
   }
 
-  void _showItemListDialog(BuildContext context, List<ItemCart> itemOrderItems, LocalizationService appLocalization) {
+  void _showItemListDialog(BuildContext context, List<ItemCart> itemOrderItems,
+      LocalizationService appLocalization) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

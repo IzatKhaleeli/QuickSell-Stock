@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../Constants/app_color.dart'; // Adjust path as needed
 
 Future<void> showLoginFailedDialog(
-    BuildContext context,
-    String errorMessage,
-    String loginFailed,
-    String language,
-    String ok,
-    ) async {
+  BuildContext context,
+  String errorMessage,
+  String loginFailed,
+  String language,
+  String ok,
+) async {
   return showDialog(
     context: context,
     barrierDismissible: true,
@@ -41,7 +41,7 @@ Future<void> showLoginFailedDialog(
                       loginFailed,
                       style: TextStyle(
                         decoration: TextDecoration.none,
-                        fontSize: 18.sp,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'NotoSansUI',
                         color: AppColors.primaryColor,
@@ -52,7 +52,7 @@ Future<void> showLoginFailedDialog(
                       errorMessage,
                       style: TextStyle(
                         decoration: TextDecoration.none,
-                        fontSize: 14.sp,
+                        fontSize: 13,
                         fontFamily: 'NotoSansUI',
                         color: AppColors.cardBackgroundColor,
                       ),

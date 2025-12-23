@@ -16,7 +16,6 @@
   "WrongCredentialsFoundBody": "Unable to login using biometrics , Please login with your username and password.",
   "noBiometricSupportBody": "Your device does not support biometric authentication. Please login with your username and password.",
   "selectStore": "Select Store",
-  "sellingPrice": "Selling Price",
   "purchasePrice": "Purchase Price",
   "notes": "Notes",
   "quantity": "Quantity",
