@@ -1,13 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../Constants/app_color.dart';
-import '../Services/LocalizationService.dart';
+import '../services/LocalizationService.dart';
 
 class CustomPopups {
-
   static void showCustomDialog({
     required BuildContext context,
     required Icon icon,
@@ -27,22 +23,26 @@ class CustomPopups {
             mainAxisSize: MainAxisSize.min,
             children: [
               icon,
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey),
+                style: const TextStyle(color: Colors.grey),
               ),
             ],
           ),
           actions: [
             TextButton(
-              child: Text(Provider.of<LocalizationService>(context, listen: false).getLocalizedString('cancel'), style: TextStyle(color: Colors.grey)),
+              child: Text(
+                  Provider.of<LocalizationService>(context, listen: false)
+                      .getLocalizedString('cancel'),
+                  style: const TextStyle(color: Colors.grey)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -55,7 +55,6 @@ class CustomPopups {
               onPressed: () {
                 Navigator.of(context).pop();
                 onPressButton();
-
               },
             ),
           ],
@@ -79,18 +78,18 @@ class CustomPopups {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
             ),
-            backgroundColor: Colors.white, // White background for the dialog
+            backgroundColor: Colors.white,
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 icon,
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   message,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
-                    color: Colors.black, // Black text color for readability
+                    color: Colors.black,
                   ),
                 ),
               ],
@@ -99,18 +98,19 @@ class CustomPopups {
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFF7F7F7), // Set light red button color
-                    elevation: 0, // Remove shadow for a flat button effect
+                    backgroundColor: const Color(0xFFF7F7F7),
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15), // Padding for a larger button
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 15),
                   ),
                   child: Text(
                     buttonText,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
-                      color: Colors.black, // Black text for contrast
+                      color: Colors.black,
                     ),
                   ),
                   onPressed: () {
@@ -124,8 +124,5 @@ class CustomPopups {
         },
       );
     });
-
-
   }
-
 }

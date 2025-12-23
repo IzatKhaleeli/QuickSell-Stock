@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../Constants/app_color.dart';
 import '../../../Models/ItemModel.dart';
-import '../../../Services/LocalizationService.dart';
 import '../../../States/ItemsState.dart';
-import './widgets/SearchField.dart';
-import './widgets/bottom_sheet.dart';
-import './widgets/product_card.dart';
+import '../../../Services/LocalizationService.dart';
+import 'widgets/SearchField.dart';
+import 'widgets/bottom_sheet.dart';
+import 'widgets/product_card.dart';
 
 class StoreSellScreen extends StatefulWidget {
   @override
@@ -48,9 +48,12 @@ class _StoreSellScreenState extends State<StoreSellScreen> {
       if (query.isEmpty) {
         filteredItems = List.from(originalList);
       } else {
-        filteredItems = originalList.where((item) =>
-            item.itemName.toString().toLowerCase().contains(query.toLowerCase())
-        ).toList();
+        filteredItems = originalList
+            .where((item) => item.itemName
+                .toString()
+                .toLowerCase()
+                .contains(query.toLowerCase()))
+            .toList();
       }
     });
   }
@@ -66,7 +69,8 @@ class _StoreSellScreenState extends State<StoreSellScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
     double width = MediaQuery.of(context).size.width;
     int crossAxisCount = width < 600 ? 2 : 4;
 
@@ -98,7 +102,7 @@ class _StoreSellScreenState extends State<StoreSellScreen> {
                   hintText: appLocalization.getLocalizedString('search'),
                   onChanged: (query) => _filterList(query, allItems),
                   onClear: () async {
-                    setState(()  {
+                    setState(() {
                       _searchController.clear();
                       filteredItems = List.from(allItems);
                     });
@@ -111,7 +115,8 @@ class _StoreSellScreenState extends State<StoreSellScreen> {
                       crossAxisCount: crossAxisCount,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
-                      childAspectRatio: 1.5, // Adjust this value to make the cards taller or shorter
+                      childAspectRatio:
+                          1.5, // Adjust this value to make the cards taller or shorter
                     ),
                     itemCount: filteredItems.length,
                     itemBuilder: (context, index) {

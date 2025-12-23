@@ -15,7 +15,8 @@ class CustomReportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
     final screenSize = MediaQuery.of(context).size;
     final scale = (screenSize.width / 390).clamp(0.7, 1.2);
     return Container(
@@ -24,15 +25,26 @@ class CustomReportButton extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildButtonRow(appLocalization,'assets/images/expenseIcon.png', appLocalization.getLocalizedString("expensesReport"), onPressed1,scale),
+          _buildButtonRow(
+              appLocalization,
+              'assets/images/expenseIcon.png',
+              appLocalization.getLocalizedString("expensesReport"),
+              onPressed1,
+              scale),
           const SizedBox(height: 20),
-          _buildButtonRow(appLocalization,'assets/images/salesIcon.png', appLocalization.getLocalizedString("salesReport"), onPressed2,scale),
+          _buildButtonRow(
+              appLocalization,
+              'assets/images/salesIcon.png',
+              appLocalization.getLocalizedString("salesReport"),
+              onPressed2,
+              scale),
         ],
       ),
     );
   }
 
-  Widget _buildButtonRow(LocalizationService appLocalization, String imagePath, String text, VoidCallback onPressed,double scale) {
+  Widget _buildButtonRow(LocalizationService appLocalization, String imagePath,
+      String text, VoidCallback onPressed, double scale) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(
@@ -70,9 +82,7 @@ class CustomReportButton extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(width: 20),
-
                 Expanded(
                   child: Center(
                     child: Text(
@@ -86,7 +96,6 @@ class CustomReportButton extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(width: 12),
               ],
             ),

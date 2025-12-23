@@ -7,8 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Constants/app_color.dart';
 
 void showLoadingAvatar(
-    BuildContext context,
-    ) async {
+  BuildContext context,
+) async {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -17,15 +17,15 @@ void showLoadingAvatar(
       return Stack(
         children: [
           BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0), // Adjust blur intensity
+            filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
             child: Container(
-              color: Colors.black.withOpacity(0.2), // Optional tint
+              color: Colors.black.withOpacity(0.2),
             ),
           ),
           Center(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.r),
-              child: Container(
+              child: SizedBox(
                 width: 130.w,
                 height: 100.h,
                 child: Column(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Models/ItemModel.dart';
-import '../Services/ItemService.dart';
+import '../api_services/ItemService.dart';
 
 class ItemsState extends ChangeNotifier {
   List<ItemModel> _item = [];

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_sell/Constants/app_color.dart';
 import 'Services/LocalizationService.dart';
-import 'Services/globalError.dart';
+import 'services/globalError.dart';
 
 class GlobalErrorListener extends StatelessWidget {
   final Widget child;
@@ -13,7 +13,8 @@ class GlobalErrorListener extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
 
     return ValueListenableBuilder<String?>(
       valueListenable: GlobalErrorNotifier.errorTextNotifier,

@@ -1,9 +1,9 @@
 class CartModel {
-   int id;
-   DateTime createdAt;
-   String createdBy;
-   double totalPrice;
-   String status;
+  int id;
+  DateTime createdAt;
+  String createdBy;
+  double totalPrice;
+  String status;
 
   CartModel({
     required this.id,
@@ -23,19 +23,20 @@ class CartModel {
     };
   }
 
-   factory CartModel.fromJson(Map<String, dynamic> json) {
-     return CartModel(
-       id: json["OrderID"],
-       createdAt: json["CreatedAT"] != null ? DateTime.parse(json["CreatedAT"]) : DateTime.now(),
-       createdBy: json["UserID"] ?? "N/A",  // Default value for null UserID
-       totalPrice: (json["TotalPrice"] as num?)?.toDouble() ?? 0.0,  // Handle null TotalPrice
-       status: json["Status"] ?? "N/A",  // Default value for null Status
-     );
-   }
+  factory CartModel.fromJson(Map<String, dynamic> json) {
+    return CartModel(
+      id: json["OrderID"],
+      createdAt: json["CreatedAT"] != null
+          ? DateTime.parse(json["CreatedAT"])
+          : DateTime.now(),
+      createdBy: json["UserID"] ?? "N/A",
+      totalPrice: (json["TotalPrice"] as num?)?.toDouble() ?? 0.0,
+      status: json["Status"] ?? "N/A",
+    );
+  }
 
-
-   @override
-   String toString() {
-     return 'CartModel(id: $id, createdAt: $createdAt, createdBy: $createdBy, totalPrice: $totalPrice, status: $status)';
-   }
+  @override
+  String toString() {
+    return 'CartModel(id: $id, createdAt: $createdAt, createdBy: $createdBy, totalPrice: $totalPrice, status: $status)';
+  }
 }

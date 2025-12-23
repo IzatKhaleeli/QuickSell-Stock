@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import '../../../Constants/app_color.dart';
 import '../../../Services/LocalizationService.dart';
-import '../LoginScreen.dart'; // Ensure this import is correct
+import '../LoginScreen.dart';
 
 class CustomDropDown extends StatelessWidget {
   final LocalizationService localizationService;
 
-  CustomDropDown({Key? key, required this.localizationService}) : super(key: key);
+  CustomDropDown({Key? key, required this.localizationService})
+      : super(key: key);
 
   String getLanguageName(String code) {
-    // Function to return the language name based on the language code
     for (var language in LoginScreen.languages) {
       if (language['code'] == code) {
         return language['name']!;
       }
     }
-    return ''; // Return empty string if language code not found (should not happen in ideal scenarios)
+    return '';
   }
 
   @override
@@ -49,15 +49,16 @@ class CustomDropDown extends StatelessWidget {
           },
           child: Row(
             children: [
-              Icon(Icons.language, color: AppColors.cardBackgroundColor, size: 24.0 * scale),
+              Icon(Icons.language,
+                  color: AppColors.cardBackgroundColor, size: 24.0 * scale),
               SizedBox(width: 8.0 * scale),
-          Text(
-            getLanguageName(localizationService.selectedLanguageCode),
-            style: TextStyle(
-              color: AppColors.cardBackgroundColor,
-              fontSize: 16.0 * scale,
-            ),
-          ),
+              Text(
+                getLanguageName(localizationService.selectedLanguageCode),
+                style: TextStyle(
+                  color: AppColors.cardBackgroundColor,
+                  fontSize: 16.0 * scale,
+                ),
+              ),
             ],
           ),
         ),

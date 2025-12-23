@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../Constants/app_color.dart';
 import '../../../Custom_Components/CustomLoadingAvatar.dart';
-import '../../../Services/CheckConnectivity.dart';
-import '../../../Services/LocalizationService.dart';
-import '../../../Services/expenses_service.dart';
+import '../../../api_services/expenses_service.dart';
+import '../../../services/CheckConnectivity.dart';
 import '../../../States/ExpenseState.dart';
 import '../../LoginScreen/Custom_Widgets/CustomFailedPopup.dart';
-import './widgets/custom_dropdown.dart';
-import './widgets/custom_textfield.dart';
-import './widgets/custom_button.dart';
+import 'widgets/custom_dropdown.dart';
+import 'widgets/custom_textfield.dart';
+import 'widgets/custom_button.dart';
 import '../../../Models/ExpensesItemModel.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import '../../../Services/LocalizationService.dart';
 
 class OtherSellScreen extends StatefulWidget {
   const OtherSellScreen({Key? key}) : super(key: key);
@@ -25,8 +24,7 @@ class _OtherSellScreenState extends State<OtherSellScreen> {
   final TextEditingController priceController = TextEditingController();
 
   ExpensesItemModel? selectedSaleType;
-   List<ExpensesItemModel> expensesList = [
-  ];
+  List<ExpensesItemModel> expensesList = [];
 
   @override
   void initState() {
@@ -48,7 +46,8 @@ class _OtherSellScreenState extends State<OtherSellScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
     final expenseState = Provider.of<ExpenseState>(context, listen: false);
     final newExpenses = expenseState.expenses;
     expensesList = List.from(newExpenses);
@@ -76,7 +75,9 @@ class _OtherSellScreenState extends State<OtherSellScreen> {
                       SizedBox(height: 2 * verticalSpacing),
                       Text(
                         appLocalization.getLocalizedString("expensesType"),
-                        style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: titleFontSize,
+                            fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: verticalSpacing),
                       CustomDropdown(
@@ -89,31 +90,40 @@ class _OtherSellScreenState extends State<OtherSellScreen> {
                         selectedValue: selectedSaleType?.id.toString(),
                         onChanged: (newId) {
                           setState(() {
-                            selectedSaleType = expensesList.firstWhere((item) => item.id.toString() == newId.toString());
+                            selectedSaleType = expensesList.firstWhere((item) =>
+                                item.id.toString() == newId.toString());
                           });
-                          if(selectedSaleType != null && selectedSaleType!.name.toLowerCase() != 'other' && selectedSaleType!.name.toLowerCase() != 'others')
-                            priceController.text = selectedSaleType?.price.toString() ?? '';
-                          else if(selectedSaleType!.name.toLowerCase() != 'other' || selectedSaleType!.name.toLowerCase() != 'others')
+                          if (selectedSaleType != null &&
+                              selectedSaleType!.name.toLowerCase() != 'other' &&
+                              selectedSaleType!.name.toLowerCase() != 'others')
+                            priceController.text =
+                                selectedSaleType?.price.toString() ?? '';
+                          else if (selectedSaleType!.name.toLowerCase() !=
+                                  'other' ||
+                              selectedSaleType!.name.toLowerCase() != 'others')
                             priceController.text = '';
-
-
                         },
                       ),
                       SizedBox(height: 2 * verticalSpacing),
                       Text(
                         appLocalization.getLocalizedString("description"),
-                        style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: titleFontSize,
+                            fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: verticalSpacing),
                       CustomTextField(
                         controller: saleDetailsController,
-                        labelText: appLocalization.getLocalizedString("expenseDetail"),
+                        labelText:
+                            appLocalization.getLocalizedString("expenseDetail"),
                         maxLines: 4,
                       ),
                       SizedBox(height: 2 * verticalSpacing),
                       Text(
                         appLocalization.getLocalizedString("price"),
-                        style: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: titleFontSize,
+                            fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: verticalSpacing),
                       CustomTextField(
@@ -131,7 +141,8 @@ class _OtherSellScreenState extends State<OtherSellScreen> {
                           if (!isConnected) {
                             showLoginFailedDialog(
                               context,
-                              appLocalization.getLocalizedString('noInternetConnection'),
+                              appLocalization
+                                  .getLocalizedString('noInternetConnection'),
                               appLocalization.getLocalizedString('noInternet'),
                               appLocalization.selectedLanguageCode,
                               appLocalization.getLocalizedString('ok'),
@@ -164,23 +175,29 @@ class _OtherSellScreenState extends State<OtherSellScreen> {
     // Validate input
     if (selectedSaleType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(appLocalization.getLocalizedString("mandatoryExpenseType")),
+        SnackBar(
+          content:
+              Text(appLocalization.getLocalizedString("mandatoryExpenseType")),
           backgroundColor: Color(0xFFD32F2F), // Red background for failure
         ),
       );
       return;
     } else if (price <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(appLocalization.getLocalizedString("priceValidValue")),
+        SnackBar(
+          content: Text(appLocalization.getLocalizedString("priceValidValue")),
           backgroundColor: Color(0xFFD32F2F), // Red background for failure
         ),
       );
       return; // Exit the function early
-    } else if (saleDetails.isEmpty && (selectedSaleType!.name.toLowerCase() == 'other' || selectedSaleType!.name.toLowerCase() == 'others')) {
+    } else if (saleDetails.isEmpty &&
+        (selectedSaleType!.name.toLowerCase() == 'other' ||
+            selectedSaleType!.name.toLowerCase() == 'others')) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(appLocalization.getLocalizedString("descriptionMandatory")),
+        SnackBar(
+          content:
+              Text(appLocalization.getLocalizedString("descriptionMandatory")),
           backgroundColor: Color(0xFFD32F2F), // Red background for failure
-
         ),
       );
       return;
@@ -188,7 +205,8 @@ class _OtherSellScreenState extends State<OtherSellScreen> {
     try {
       showLoadingAvatar(context);
       // Call the service to create the expense order
-      bool success = await ExpensesService.createExpenseOrder(context, selectedSaleType!.id, saleDetails, price);
+      bool success = await ExpensesService.createExpenseOrder(
+          context, selectedSaleType!.id, saleDetails, price);
 
       if (success) {
         // If successful, show success snackbar with custom background color
@@ -221,14 +239,15 @@ class _OtherSellScreenState extends State<OtherSellScreen> {
       // Catch any exceptions and show an error snackbar
       debugPrint("Error occurred: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(appLocalization.getLocalizedString("unexpectedErrorOccurred")),
+        SnackBar(
+          content: Text(
+              appLocalization.getLocalizedString("unexpectedErrorOccurred")),
           backgroundColor: Color(0xFFD32F2F), // Red background for failure
         ),
       );
-    }
-    finally {
-      Navigator.of(context).pop(); // Close loading regardless of success or failure
+    } finally {
+      Navigator.of(context)
+          .pop(); // Close loading regardless of success or failure
     }
   }
-
 }

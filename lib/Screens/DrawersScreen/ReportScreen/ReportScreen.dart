@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -9,10 +8,10 @@ import '../../../Constants/app_color.dart';
 import '../../../Custom_Components/CustomLoadingAvatar.dart';
 import '../../../Models/ExpensesItemModel.dart';
 import '../../../Models/ItemCartModel.dart';
-import '../../../Services/CartService.dart';
-import '../../../Services/CheckConnectivity.dart';
 import '../../../Services/LocalizationService.dart';
-import '../../../Services/expenses_service.dart';
+import '../../../api_services/CartService.dart';
+import '../../../services/CheckConnectivity.dart';
+import '../../../api_services/expenses_service.dart';
 import '../../../Utils/date_helper.dart';
 import '../../LoginScreen/Custom_Widgets/CustomFailedPopup.dart';
 import '../CartHistoryScreen/widgets/CustomReportButton.dart';
@@ -28,8 +27,8 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-  DateTime fromDate = DateTime.now(); // To store selected from date
-  DateTime toDate = DateTime.now();   // To store selected to date
+  DateTime fromDate = DateTime.now();
+  DateTime toDate = DateTime.now();
   int totalExpenses = 0;
   int totalSales = 0;
   bool isLoading = true;
@@ -37,7 +36,7 @@ class _ReportScreenState extends State<ReportScreen> {
   @override
   void initState() {
     super.initState();
-    fetchReportData(); // Call your API here
+    fetchReportData();
   }
 
   void fetchReportData() async {
@@ -57,11 +56,12 @@ class _ReportScreenState extends State<ReportScreen> {
     }
   }
 
-
-  Future<void> prepareSalesPDF(List<ItemCart> salesList,String dateFrom,String dateTo) async {
+  Future<void> prepareSalesPDF(
+      List<ItemCart> salesList, String dateFrom, String dateTo) async {
     print("Preparing sales PDF with ${salesList.length} items.");
     try {
-      final font = pw.Font.ttf(await rootBundle.load('assets/fonts/Amiri-Regular.ttf'));
+      final font =
+          pw.Font.ttf(await rootBundle.load('assets/fonts/Amiri-Regular.ttf'));
       final pageWidth = PdfPageFormat.a4.availableWidth;
 
       // Create a PDF document
@@ -69,7 +69,6 @@ class _ReportScreenState extends State<ReportScreen> {
       double totalSum = 0;
       double differenceSum = 0;
       double differenceColumn = 0;
-
 
       // Add a page to the document
       pdf.addPage(
@@ -98,13 +97,16 @@ class _ReportScreenState extends State<ReportScreen> {
                       pw.Container(
                         width: pageWidth / 3,
                         alignment: pw.Alignment.topLeft,
-                        child: pw.Text("تاريخ الكشف: ${DateTime.now().toString().split(' ')[0]}", style: pw.TextStyle(fontSize: 12, font: font)),
+                        child: pw.Text(
+                            "تاريخ الكشف: ${DateTime.now().toString().split(' ')[0]}",
+                            style: pw.TextStyle(fontSize: 12, font: font)),
                       ),
                       pw.Spacer(),
                       pw.Container(
                         width: pageWidth / 3,
                         alignment: pw.Alignment.topRight,
-                        child: pw.Text("من تاريخ: $dateFrom", style: pw.TextStyle(fontSize: 12, font: font)),
+                        child: pw.Text("من تاريخ: $dateFrom",
+                            style: pw.TextStyle(fontSize: 12, font: font)),
                       ),
                     ],
                   ),
@@ -113,7 +115,8 @@ class _ReportScreenState extends State<ReportScreen> {
                     mainAxisAlignment: pw.MainAxisAlignment.end,
                     children: [
                       pw.Container(
-                        child: pw.Text("إلى تاريخ: $dateTo", style: pw.TextStyle(fontSize: 12, font: font)),
+                        child: pw.Text("إلى تاريخ: $dateTo",
+                            style: pw.TextStyle(fontSize: 12, font: font)),
                       ),
                     ],
                   ),
@@ -135,19 +138,29 @@ class _ReportScreenState extends State<ReportScreen> {
                   ),
 
                   for (int i = 0; i < salesList.length; i++) ...[
-                        () {
-                      final rowTotal = salesList[i].sellingPrice * salesList[i].quantity;
+                    () {
+                      final rowTotal =
+                          salesList[i].sellingPrice * salesList[i].quantity;
                       totalSum += rowTotal;
-                      differenceColumn=0;
-                      differenceColumn +=(salesList[i].sellingPrice - salesList[i].purchasePrice) * salesList[i].quantity;
+                      differenceColumn = 0;
+                      differenceColumn += (salesList[i].sellingPrice -
+                              salesList[i].purchasePrice) *
+                          salesList[i].quantity;
                       differenceSum += differenceColumn;
                       return pw.Row(
                         children: [
                           _buildCell(rowTotal.toStringAsFixed(2), font, 2),
-                          _buildCell(differenceColumn.toStringAsFixed(2), font, 2),
+                          _buildCell(
+                              differenceColumn.toStringAsFixed(2), font, 2),
                           _buildCell(salesList[i].quantity.toString(), font, 2),
-                          _buildCell(salesList[i].sellingPrice.toStringAsFixed(2), font, 2),
-                          _buildCell(salesList[i].purchasePrice.toStringAsFixed(2), font, 2),
+                          _buildCell(
+                              salesList[i].sellingPrice.toStringAsFixed(2),
+                              font,
+                              2),
+                          _buildCell(
+                              salesList[i].purchasePrice.toStringAsFixed(2),
+                              font,
+                              2),
                           // _buildCell(salesList[i].itemSizeName.toString(), font, 2),
                           _buildCell(salesList[i].itemName.toString(), font, 2),
                           _buildCell((i + 1).toString(), font, 1),
@@ -172,7 +185,8 @@ class _ReportScreenState extends State<ReportScreen> {
       // Get the temporary directory to save the PDF
       final tempDir = await getTemporaryDirectory();
       // final pdfPath = '${tempDir.path}/${salesList.orderId!}_${DateTime.now().toString().split(' ')[0]}.pdf';
-      final pdfPath = '${tempDir.path}/${DateTime.now().toString().split(' ')[0]}.pdf';
+      final pdfPath =
+          '${tempDir.path}/${DateTime.now().toString().split(' ')[0]}.pdf';
       // Delete any existing PDF files in the temporary directory
       final pdfDir = Directory(tempDir.path);
       if (await pdfDir.exists()) {
@@ -190,18 +204,21 @@ class _ReportScreenState extends State<ReportScreen> {
       await file.writeAsBytes(await pdf.save());
 
       // Share the PDF via WhatsApp (or any other sharing method)
-      await Share.shareFiles([pdfPath], text: 'Here is your account statement!', sharePositionOrigin: Rect.fromLTWH(0, 0, 10, 10));
+      await Share.shareFiles([pdfPath],
+          text: 'Here is your account statement!',
+          sharePositionOrigin: Rect.fromLTWH(0, 0, 10, 10));
     } catch (e) {
       print('Error generating or sharing PDF: $e');
       return null; // Return null in case of an error
     }
-
   }
 
-  Future<void> prepareExpensesPDF(List<ExpensesItemModel> expensesList,String dateFrom,String dateTo) async {
+  Future<void> prepareExpensesPDF(List<ExpensesItemModel> expensesList,
+      String dateFrom, String dateTo) async {
     print("Preparing sales PDF with ${expensesList.length} items.");
     try {
-      final font = pw.Font.ttf(await rootBundle.load('assets/fonts/Amiri-Regular.ttf'));
+      final font =
+          pw.Font.ttf(await rootBundle.load('assets/fonts/Amiri-Regular.ttf'));
       // Create a PDF document
       final pdf = pw.Document();
       double totalSum = 0;
@@ -231,13 +248,16 @@ class _ReportScreenState extends State<ReportScreen> {
                       pw.Container(
                         width: pageWidth / 3,
                         alignment: pw.Alignment.topLeft,
-                        child: pw.Text("تاريخ الكشف: ${DateTime.now().toString().split(' ')[0]}", style: pw.TextStyle(fontSize: 12, font: font)),
+                        child: pw.Text(
+                            "تاريخ الكشف: ${DateTime.now().toString().split(' ')[0]}",
+                            style: pw.TextStyle(fontSize: 12, font: font)),
                       ),
                       pw.Spacer(),
                       pw.Container(
                         width: pageWidth / 3,
                         alignment: pw.Alignment.topRight,
-                        child: pw.Text("من تاريخ: $dateFrom", style: pw.TextStyle(fontSize: 12, font: font)),
+                        child: pw.Text("من تاريخ: $dateFrom",
+                            style: pw.TextStyle(fontSize: 12, font: font)),
                       ),
                     ],
                   ),
@@ -246,7 +266,8 @@ class _ReportScreenState extends State<ReportScreen> {
                     mainAxisAlignment: pw.MainAxisAlignment.end,
                     children: [
                       pw.Container(
-                        child: pw.Text("إلى تاريخ: $dateTo", style: pw.TextStyle(fontSize: 12, font: font)),
+                        child: pw.Text("إلى تاريخ: $dateTo",
+                            style: pw.TextStyle(fontSize: 12, font: font)),
                       ),
                     ],
                   ),
@@ -265,11 +286,12 @@ class _ReportScreenState extends State<ReportScreen> {
                   ),
 
                   for (int i = 0; i < expensesList.length; i++) ...[
-                        () {
+                    () {
                       totalSum += expensesList[i].price;
                       return pw.Row(
                         children: [
-                          _buildCell(expensesList[i].price.toStringAsFixed(2), font, 2),
+                          _buildCell(expensesList[i].price.toStringAsFixed(2),
+                              font, 2),
                           _buildCell(
                             (expensesList[i].name?.trim().isNotEmpty ?? false)
                                 ? expensesList[i].name!
@@ -312,7 +334,8 @@ class _ReportScreenState extends State<ReportScreen> {
       // Get the temporary directory to save the PDF
       final tempDir = await getTemporaryDirectory();
       // final pdfPath = '${tempDir.path}/${salesList.orderId!}_${DateTime.now().toString().split(' ')[0]}.pdf';
-      final pdfPath = '${tempDir.path}/${DateTime.now().toString().split(' ')[0]}.pdf';
+      final pdfPath =
+          '${tempDir.path}/${DateTime.now().toString().split(' ')[0]}.pdf';
       // Delete any existing PDF files in the temporary directory
       final pdfDir = Directory(tempDir.path);
       if (await pdfDir.exists()) {
@@ -330,54 +353,62 @@ class _ReportScreenState extends State<ReportScreen> {
       await file.writeAsBytes(await pdf.save());
 
       // Share the PDF via WhatsApp (or any other sharing method)
-      await Share.shareFiles([pdfPath], text: 'Here is your expenses report!', sharePositionOrigin: Rect.fromLTWH(0, 0, 10, 10));
+      await Share.shareFiles([pdfPath],
+          text: 'Here is your expenses report!',
+          sharePositionOrigin: Rect.fromLTWH(0, 0, 10, 10));
     } catch (e) {
       print('Error generating or sharing PDF: $e');
       return null; // Return null in case of an error
     }
-
   }
+
   // Button actions
-  Future<void> createExpensesReportPressed(LocalizationService appLocalization) async {
-      bool isConnected = await checkConnectivity();
-      if (!isConnected) {
-        showLoginFailedDialog(
-          context,
-          appLocalization.getLocalizedString('noInternetConnection'),
-          appLocalization.getLocalizedString('noInternet'),
-          appLocalization.selectedLanguageCode,
-          appLocalization.getLocalizedString('ok'),
-        );
-        return;
-      }
+  Future<void> createExpensesReportPressed(
+      LocalizationService appLocalization) async {
+    bool isConnected = await checkConnectivity();
+    if (!isConnected) {
+      showLoginFailedDialog(
+        context,
+        appLocalization.getLocalizedString('noInternetConnection'),
+        appLocalization.getLocalizedString('noInternet'),
+        appLocalization.selectedLanguageCode,
+        appLocalization.getLocalizedString('ok'),
+      );
+      return;
+    }
 
-      try {
-        showLoadingAvatar(context);
+    try {
+      showLoadingAvatar(context);
 
-        String formattedFromDate = DateFormat('yyyy-MM-dd').format(fromDate);
-        String formattedToDate = DateFormat('yyyy-MM-dd').format(toDate);
-        print("Generating Sales Report from $formattedFromDate to $formattedToDate");
+      String formattedFromDate = DateFormat('yyyy-MM-dd').format(fromDate);
+      String formattedToDate = DateFormat('yyyy-MM-dd').format(toDate);
+      print(
+          "Generating Sales Report from $formattedFromDate to $formattedToDate");
 
-        // Fetch the history expenses list
-        List<ExpensesItemModel> historyExpensesList = await ExpensesService.fetchHistoryExpenses(context, formattedFromDate, formattedToDate);
-        print("historyExpensesList: $historyExpensesList");
-        Navigator.pop(context);
-        prepareExpensesPDF(historyExpensesList,formattedFromDate,formattedToDate);
-      } catch (e) {
-        Navigator.pop(context); // ✅ Pop after failure
-        print('Error generating expenses report: $e');
-        // You can show an error dialog or display a message in the UI based on the exception
-        await showLoginFailedDialog(
-          context,
-          appLocalization.getLocalizedString('reportGenerationFailed'),
-          appLocalization.getLocalizedString('tryAgain'),
-          appLocalization.selectedLanguageCode,
-          appLocalization.getLocalizedString('ok'),
-        );
-      }
+      // Fetch the history expenses list
+      List<ExpensesItemModel> historyExpensesList =
+          await ExpensesService.fetchHistoryExpenses(
+              context, formattedFromDate, formattedToDate);
+      print("historyExpensesList: $historyExpensesList");
+      Navigator.pop(context);
+      prepareExpensesPDF(
+          historyExpensesList, formattedFromDate, formattedToDate);
+    } catch (e) {
+      Navigator.pop(context); // ✅ Pop after failure
+      print('Error generating expenses report: $e');
+      // You can show an error dialog or display a message in the UI based on the exception
+      await showLoginFailedDialog(
+        context,
+        appLocalization.getLocalizedString('reportGenerationFailed'),
+        appLocalization.getLocalizedString('tryAgain'),
+        appLocalization.selectedLanguageCode,
+        appLocalization.getLocalizedString('ok'),
+      );
+    }
   }
 
-  Future<void> createSalesReportPressed(LocalizationService appLocalization)async {
+  Future<void> createSalesReportPressed(
+      LocalizationService appLocalization) async {
     bool isConnected = await checkConnectivity();
     if (!isConnected) {
       showLoginFailedDialog(
@@ -394,14 +425,17 @@ class _ReportScreenState extends State<ReportScreen> {
       showLoadingAvatar(context);
       String formattedFromDate = DateFormat('yyyy-MM-dd').format(fromDate);
       String formattedToDate = DateFormat('yyyy-MM-dd').format(toDate);
-      print("Generating Sales Report from $formattedFromDate to $formattedToDate");
+      print(
+          "Generating Sales Report from $formattedFromDate to $formattedToDate");
 
       // Fetch the history expenses list
-      List<ItemCart> historySalesList = await CartService.fetchAllOrderItemsReport(context, formattedFromDate, formattedToDate);
+      List<ItemCart> historySalesList =
+          await CartService.fetchAllOrderItemsReport(
+              context, formattedFromDate, formattedToDate);
       print("historySalesList: $historySalesList");
       // Call the method to prepare the PDF
       Navigator.pop(context); // Remove the loading avatar
-      prepareSalesPDF(historySalesList,formattedFromDate,formattedToDate);
+      prepareSalesPDF(historySalesList, formattedFromDate, formattedToDate);
     } catch (e) {
       Navigator.pop(context); // Remove the loading avatar
       print('Error generating expenses report: $e');
@@ -414,7 +448,6 @@ class _ReportScreenState extends State<ReportScreen> {
         appLocalization.getLocalizedString('ok'),
       );
     }
-
   }
 
   pw.Widget _buildCell(String text, pw.Font font, int flex) {
@@ -423,11 +456,11 @@ class _ReportScreenState extends State<ReportScreen> {
       child: pw.Container(
         padding: const pw.EdgeInsets.all(3),
         decoration: pw.BoxDecoration(
-          border: pw.Border.all(),  // Black border for all sides
+          border: pw.Border.all(), // Black border for all sides
         ),
         child: pw.Text(
           text,
-          style: pw.TextStyle(fontSize:10,font: font),
+          style: pw.TextStyle(fontSize: 10, font: font),
           textAlign: pw.TextAlign.center,
         ),
       ),
@@ -436,7 +469,8 @@ class _ReportScreenState extends State<ReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
     final screenSize = MediaQuery.of(context).size;
     final scale = (screenSize.width / 390).clamp(0.7, 1.2);
 
@@ -465,7 +499,8 @@ class _ReportScreenState extends State<ReportScreen> {
             children: [
               CustomFilterArea(
                 appLocalization: appLocalization,
-                onDateRangeSelected: (DateTime selectedFromDate, DateTime selectedToDate) {
+                onDateRangeSelected:
+                    (DateTime selectedFromDate, DateTime selectedToDate) {
                   setState(() {
                     fromDate = selectedFromDate;
                     toDate = selectedToDate;
@@ -489,5 +524,4 @@ class _ReportScreenState extends State<ReportScreen> {
       ),
     );
   }
-
 }

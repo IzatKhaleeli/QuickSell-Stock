@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
-import '../Screens/LoginScreen/LoginScreen.dart';
-import '../Services/api_request.dart';
-import '../Services/secure_storage.dart';
+import '../screens/LoginScreen/LoginScreen.dart';
+import '../services/api_request.dart';
+import '../services/secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import '../Constants/api_constants.dart';

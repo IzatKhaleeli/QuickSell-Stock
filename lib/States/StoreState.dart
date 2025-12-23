@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Models/StoreModel.dart';
-import '../Services/StoreService.dart';
+import '../api_services/StoreService.dart';
 
 class StoresState extends ChangeNotifier {
   List<StoreModel> _stores = [];

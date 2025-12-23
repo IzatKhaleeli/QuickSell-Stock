@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../Constants/app_color.dart';
 import '../../../../Custom_Components/CustomLoadingAvatar.dart';
 import '../../../../Models/ItemCartModel.dart';
-import '../../../../Services/CartService.dart';
-import '../../../../Services/CheckConnectivity.dart';
 import '../../../../Services/LocalizationService.dart';
+import '../../../../api_services/CartService.dart';
+import '../../../../services/CheckConnectivity.dart';
 import '../../../../Utils/date_helper.dart';
 import '../../../LoginScreen/Custom_Widgets/CustomFailedPopup.dart';
 import 'CustomDetailRow.dart';

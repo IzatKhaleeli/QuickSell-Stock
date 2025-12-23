@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';  // Import to use ImageFilter.blur
+import 'dart:ui'; // Import to use ImageFilter.blur
 
 import '../../../../Constants/app_color.dart';
 import '../../../../Models/ItemCartModel.dart';
@@ -11,11 +11,10 @@ class CustomItemOrderItemsDialog extends StatelessWidget {
   final LocalizationService appLocalization;
   final String orderId;
 
-  CustomItemOrderItemsDialog({
-    required this.itemOrderItems,
-    required this.appLocalization,
-    required this.orderId
-  });
+  CustomItemOrderItemsDialog(
+      {required this.itemOrderItems,
+      required this.appLocalization,
+      required this.orderId});
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +24,19 @@ class CustomItemOrderItemsDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12), // Rounded corners
       ),
-      insetPadding: EdgeInsets.all(20),  // Optional: Add padding for dialog positioning
+      insetPadding:
+          EdgeInsets.all(20), // Optional: Add padding for dialog positioning
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(12), // Rounded corners for the container
+        borderRadius:
+            BorderRadius.circular(12), // Rounded corners for the container
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 4), // Apply blur effect
           child: Container(
             padding: EdgeInsets.all(12),
             height: 625,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.6), // Semi-transparent white background
+              color: Colors.white
+                  .withOpacity(0.6), // Semi-transparent white background
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -45,12 +47,14 @@ class CustomItemOrderItemsDialog extends StatelessWidget {
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          color: AppColors.primaryColor, // Color of the bottom border
+                          color: AppColors
+                              .primaryColor, // Color of the bottom border
                           width: 2, // Thickness of the bottom border
                         ),
                       ),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12), // Adjust padding
+                    padding: EdgeInsets.symmetric(
+                        vertical: 8, horizontal: 12), // Adjust padding
                     child: Text(
                       orderId.toString(),
                       style: TextStyle(
@@ -59,7 +63,8 @@ class CustomItemOrderItemsDialog extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         shadows: [
                           Shadow(
-                            color: AppColors.primaryColor.withOpacity(0.4), // Shadow color
+                            color: AppColors.primaryColor
+                                .withOpacity(0.4), // Shadow color
                             offset: Offset(2, 2), // Shadow offset
                             blurRadius: 5, // Blur effect
                           ),
@@ -75,7 +80,8 @@ class CustomItemOrderItemsDialog extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final item = itemOrderItems[index];
                       return Card(
-                        color: AppColors.secondaryColor.withOpacity(0.6),  // 50% opacity
+                        color: AppColors.secondaryColor
+                            .withOpacity(0.6), // 50% opacity
                         margin: EdgeInsets.symmetric(vertical: 8),
                         elevation: 1,
                         shape: RoundedRectangleBorder(
@@ -93,27 +99,35 @@ class CustomItemOrderItemsDialog extends StatelessWidget {
                                     const SizedBox(height: 5),
                                     CustomDetailRow(
                                       title: '#: ',
-                                      value: (index+1).toString(), // Format the date before displaying
+                                      value: (index + 1)
+                                          .toString(), // Format the date before displaying
                                     ),
-                                    if(item.itemName != null && item.itemName!.trim() != "")
-                                    CustomDetailRow(
-                                      title: '${appLocalization.getLocalizedString('name')}: ',
-                                      value: item.itemName!,
-                                    ),
+                                    if (item.itemName != null &&
+                                        item.itemName!.trim() != "")
+                                      CustomDetailRow(
+                                        title:
+                                            '${appLocalization.getLocalizedString('name')}: ',
+                                        value: item.itemName!,
+                                      ),
                                     // CustomDetailRow(
                                     //   title: '${appLocalization.getLocalizedString('size')}: ',
                                     //   value: item.itemSizeName.toString(),
                                     // ),
                                     CustomDetailRow(
-                                      title: '${appLocalization.getLocalizedString('actualPrice')}: ',
-                                      value: item.purchasePrice.toStringAsFixed(2),
+                                      title:
+                                          '${appLocalization.getLocalizedString('actualPrice')}: ',
+                                      value:
+                                          item.purchasePrice.toStringAsFixed(2),
                                     ),
                                     CustomDetailRow(
-                                      title: '${appLocalization.getLocalizedString('sellingPrice')}: ',
-                                      value: item.sellingPrice.toStringAsFixed(2),
+                                      title:
+                                          '${appLocalization.getLocalizedString('sellingPrice')}: ',
+                                      value:
+                                          item.sellingPrice.toStringAsFixed(2),
                                     ),
                                     CustomDetailRow(
-                                      title: '${appLocalization.getLocalizedString('quantity')}: ',
+                                      title:
+                                          '${appLocalization.getLocalizedString('quantity')}: ',
                                       value: item.quantity.toString(),
                                     ),
                                   ],
@@ -135,7 +149,10 @@ class CustomItemOrderItemsDialog extends StatelessWidget {
                       },
                       child: Text(
                         appLocalization.getLocalizedString("exit"),
-                        style: TextStyle(fontSize: 16,color: AppColors.primaryColor, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.primaryColor,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],

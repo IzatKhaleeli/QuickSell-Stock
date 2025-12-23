@@ -160,21 +160,16 @@ class ApiRequest {
         };
 
       case 401:
-        // Handle Unauthorized: try auto-login and retry the original request
         final loginState = Provider.of<LoginState>(context, listen: false);
         final success = await loginState.autoLogin(context);
 
         if (success["success"]) {
-          print("success :${success}");
           debugPrint("Auto login successful. Retrying original request...");
-          // After successful login, retry the original request
           final retryResponse = await apiRequest();
           print("retryCallback finished");
 
-          // Return the result of the retry request directly
-          return retryResponse; // Ensure to return the retry result
+          return retryResponse;
         } else {
-          // If auto-login fails, return 401 error response
           return {
             'success': false,
             'error': 'Unauthorized - auto-login failed.',

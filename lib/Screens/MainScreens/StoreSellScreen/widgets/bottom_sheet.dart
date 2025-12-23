@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../Models/ItemCartModel.dart';
-import '../../../../Models/ItemSizeModel.dart';
-import '../../../../Services/ItemSizeService.dart';
-import '../../../../Services/LocalizationService.dart';
 import '../../../../Constants/app_color.dart';
+import '../../../../Services/LocalizationService.dart';
 import '../../../../States/CartState.dart';
-import '../widgets/custom_text_field.dart';
+import 'custom_text_field.dart';
 import '../../../../Models/ItemModel.dart';
 
 class BottomSheetWidget extends StatefulWidget {
@@ -18,17 +16,10 @@ class BottomSheetWidget extends StatefulWidget {
 }
 
 class _BottomSheetWidgetState extends State<BottomSheetWidget> {
-  final TextEditingController _quantityController = TextEditingController(text: '1');
+  final TextEditingController _quantityController =
+      TextEditingController(text: '1');
   final TextEditingController _offerPriceController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // Future<List<ItemSizeModel>>? _itemSizesFuture;
-  // ItemSizeModel? _selectedSize;
-  // bool sizeError=false;
-  // @override
-  // void initState() {
-  //   super.initState();
-    // _itemSizesFuture = ItemSizeService.fetchItemsSizes(context, widget.item.itemId);
-  // }
 
   @override
   void dispose() {
@@ -39,42 +30,24 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
 
   void _confirmSale() {
     final cartState = context.read<CartState>();
-    // final currentItemId=widget.item.itemId;
-    // final int enteredQuantity = int.tryParse(_quantityController.text) ?? 0;
 
-    // Sum quantities of items in the cart that match the current itemId
-    // final int existingQuantityInCart = cartState.itemsList
-    //     .where((item) => item.id == currentItemId && item.itemSizeId == _selectedSize?.sizeId)
-    //     .fold(0, (sum, item) => sum + item.quantity);
-
-    // if ((existingQuantityInCart + enteredQuantity) > (_selectedSize?.quantity ?? 0)) {
-    //   setState(() {
-    //     sizeError=true;
-    //   });
-    //   print("_confirmSale canceled");
-    // }
-   // else{
-      // setState(() {
-      //   sizeError=false;
-      // });
     if (_formKey.currentState?.validate() ?? false) {
       final soldItem = ItemCart(
         id: widget.item.itemId,
         quantity: int.tryParse(_quantityController.text) ?? 0,
         sellingPrice: _offerPriceController.text.isNotEmpty
-            ? double.tryParse(_offerPriceController.text) ?? widget.item.sellingPrice
+            ? double.tryParse(_offerPriceController.text) ??
+                widget.item.sellingPrice
             : widget.item.sellingPrice,
         purchasePrice: widget.item.purchasePrice,
         itemName: widget.item.itemName,
-        // itemSizeId: _selectedSize!.sizeId,
-        // itemSizeName:_selectedSize!.sizeLabel,
       );
       cartState.addStoreItem(soldItem);
       debugPrint("Cart State: ${cartState.itemsList}");
       debugPrint("Total Price: ${cartState.totalPrice}");
-    Navigator.pop(context);
-      }
-   // }
+      Navigator.pop(context);
+    }
+    // }
   }
 
   void _discardSale() {
@@ -83,7 +56,8 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
 
     final screenWidth = MediaQuery.of(context).size.width;
     final baseWidth = 390.0;
@@ -101,10 +75,11 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
           ? TextDirection.rtl
           : TextDirection.ltr,
       child: Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Container(
           padding: EdgeInsets.all(spacing),
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(borderRadius),
@@ -128,7 +103,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                       Spacer(),
                       Text(
                         appLocalization.getLocalizedString('confirmSellTitle'),
-                        style:  TextStyle(
+                        style: TextStyle(
                           fontSize: fontSizeMedium,
                           fontWeight: FontWeight.bold,
                         ),

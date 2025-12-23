@@ -18,7 +18,8 @@ class CustomTotalsSummaryArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
     int net = sales - expenses;
 
     return Container(
@@ -38,45 +39,51 @@ class CustomTotalsSummaryArea extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSummaryRow(appLocalization.getLocalizedString('expenses'), expenses, isLoading),
-          _buildSummaryRow(appLocalization.getLocalizedString('sales'), sales, isLoading),
-          _buildSummaryRow(appLocalization.getLocalizedString('net'), net, isLoading, isBold: true),
+          _buildSummaryRow(appLocalization.getLocalizedString('expenses'),
+              expenses, isLoading),
+          _buildSummaryRow(
+              appLocalization.getLocalizedString('sales'), sales, isLoading),
+          _buildSummaryRow(
+              appLocalization.getLocalizedString('net'), net, isLoading,
+              isBold: true),
         ],
       ),
     );
   }
 
-  Widget _buildSummaryRow(String label, int amount,isLoading, {bool isBold = false}) {
+  Widget _buildSummaryRow(String label, int amount, isLoading,
+      {bool isBold = false}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-              Text(
-              label,
-              style: TextStyle(
-                fontSize: 18.sp,
-                color: AppColors.primaryColor, // Set text color to green
-                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
-          isLoading
-              ? SizedBox(
-              width: 20.w,
-            height: 20.0.h,
-            child: const CircularProgressIndicator(
-              strokeWidth: 2.0,
-              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryColor),
-            ),
-          )
-              : Text(
-            '${amount == 0 ? 'N/A' : amount.toStringAsFixed(2)}',
+          Text(
+            label,
             style: TextStyle(
-              fontSize: 18.sp, // scaled font size
+              fontSize: 18.sp,
               color: AppColors.primaryColor, // Set text color to green
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
             ),
           ),
+          isLoading
+              ? SizedBox(
+                  width: 20.w,
+                  height: 20.0.h,
+                  child: const CircularProgressIndicator(
+                    strokeWidth: 2.0,
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(AppColors.primaryColor),
+                  ),
+                )
+              : Text(
+                  '${amount == 0 ? 'N/A' : amount.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 18.sp, // scaled font size
+                    color: AppColors.primaryColor, // Set text color to green
+                    fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
         ],
       ),
     );

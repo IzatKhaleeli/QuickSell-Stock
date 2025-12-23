@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import '../Constants/api_constants.dart';
 import '../Models/ItemModel.dart';
-import 'api_request.dart';
+import '../services/api_request.dart';
 
 class ItemService {
   static Future<List<ItemModel>> fetchItems(

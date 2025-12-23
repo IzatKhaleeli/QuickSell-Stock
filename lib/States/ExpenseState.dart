@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Models/ExpensesItemModel.dart';
-import '../services/expenses_service.dart';
+import '../api_services/expenses_service.dart';
 
 class ExpenseState extends ChangeNotifier {
   List<ExpensesItemModel> _expenses = [];
@@ -20,15 +20,14 @@ class ExpenseState extends ChangeNotifier {
     notifyListeners();
 
     try {
-      List<ExpensesItemModel> fetchedExpenses = await ExpensesService.fetchExpenses(context);
+      List<ExpensesItemModel> fetchedExpenses =
+          await ExpensesService.fetchExpenses(context);
       _expenses = fetchedExpenses;
       debugPrint("fetchedExpensess :${_expenses}");
-
     } catch (e) {
       _errorMessage = "Failed to load expenses: $e";
       _expenses = [];
       debugPrint("_errorMessage:${_errorMessage}");
-
     }
 
     _isLoading = false;

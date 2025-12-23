@@ -4,13 +4,14 @@ import '../../../../Constants/app_color.dart';
 import '../../../../Services/LocalizationService.dart';
 
 class CheckoutButton extends StatelessWidget {
-  final VoidCallback onPressed;  // Add a parameter to accept onPressed function
+  final VoidCallback onPressed;
 
-  const CheckoutButton({super.key, required this.onPressed});  // Make onPressed required
+  const CheckoutButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    var appLocalization = Provider.of<LocalizationService>(context, listen: false);
+    var appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
     final screenSize = MediaQuery.of(context).size;
     final scale = (screenSize.width / 390).clamp(0.70, 1.2);
 
@@ -24,7 +25,7 @@ class CheckoutButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        onPressed: onPressed,  // Use the passed in onPressed function
+        onPressed: onPressed,
         child: Text(
           '${appLocalization.getLocalizedString("submit")} 🛒',
           style: TextStyle(

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_sell/Screens/MainScreens/CartScreen/widgets/payment_method_popup.dart';
+import 'package:quick_sell/screens/MainScreens/CartScreen/widgets/payment_method_popup.dart';
 import '../../../Constants/app_color.dart';
 import '../../../Custom_Components/CustomLoadingAvatar.dart';
 import '../../../Custom_Components/CustomPopups.dart';
-import '../../../Services/CartService.dart';
-import '../../../Services/CheckConnectivity.dart';
 import '../../../Services/LocalizationService.dart';
+import '../../../api_services/CartService.dart';
+import '../../../services/CheckConnectivity.dart';
 import '../../../States/CartState.dart';
 import '../../LoginScreen/Custom_Widgets/CustomFailedPopup.dart';
 import '../../MainScreen.dart';
-import './widgets/cart_item.dart';
-import './widgets/checkout_button.dart';
+import 'widgets/cart_item.dart';
+import 'widgets/checkout_button.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});

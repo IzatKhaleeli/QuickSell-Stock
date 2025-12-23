@@ -2,9 +2,9 @@ import 'package:flutter/services.dart';
 import '../States/LoginState.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'Screens/SplashScreen.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'Services/LocalizationService.dart';
+import 'screens/SplashScreen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
 import './Constants/app_color.dart';
 import 'States/ExpenseState.dart';
@@ -19,7 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp, // Portrait mode only
+    DeviceOrientation.portraitUp,
   ]);
 
   LocalizationService localizeService = LocalizationService();
@@ -83,18 +83,22 @@ class MyApp extends StatelessWidget {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.secondaryColor, // Use AppColors
-        contentPadding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 25.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 20.0, horizontal: 25.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: AppColors.primaryColor.withOpacity(0.5), width: 1), // Use AppColors
+          borderSide: BorderSide(
+              color: AppColors.primaryColor.withOpacity(0.5),
+              width: 1), // Use AppColors
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: AppColors.primaryColor, width: 2), // Use AppColors
+          borderSide: BorderSide(
+              color: AppColors.primaryColor, width: 2), // Use AppColors
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -111,8 +115,11 @@ class MyApp extends StatelessWidget {
         ),
       ),
       textTheme: TextTheme(
-        titleMedium: TextStyle(color: AppColors.primaryColor, fontWeight: FontWeight.bold), // Use AppColors
-        bodyMedium: TextStyle(color: AppColors.primaryTextColor), // Use AppColors
+        titleMedium: TextStyle(
+            color: AppColors.primaryColor,
+            fontWeight: FontWeight.bold), // Use AppColors
+        bodyMedium:
+            TextStyle(color: AppColors.primaryTextColor), // Use AppColors
       ),
     );
 
@@ -130,7 +137,8 @@ class MyApp extends StatelessWidget {
       );
     }
 
-    return Consumer<LocalizationService>(builder: (context, localizeService, _) {
+    return Consumer<LocalizationService>(
+        builder: (context, localizeService, _) {
       return GlobalErrorListener(
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

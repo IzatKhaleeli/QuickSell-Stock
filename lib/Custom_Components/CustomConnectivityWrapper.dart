@@ -9,7 +9,6 @@ class ConnectivityWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<ConnectivityResult>>(
-      // Update type to match new API
       stream: Connectivity().onConnectivityChanged,
       builder: (context, snapshot) {
         final isOffline = snapshot.hasData &&
@@ -18,7 +17,7 @@ class ConnectivityWrapper extends StatelessWidget {
 
         return Stack(
           children: [
-            child, // Your main screen UI
+            child,
             if (isOffline)
               Positioned(
                 top: 0,
@@ -31,9 +30,9 @@ class ConnectivityWrapper extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       color: Colors.red,
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(Icons.wifi_off, color: Colors.white),
                           SizedBox(width: 8),
                           Text('No Internet Connection',
