@@ -18,21 +18,21 @@ class ApiRequest {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token') ?? '';
-      final response = await http.get(
-        Uri.parse(endpoint),
-        headers: {
-          "Authorization": "Bearer $token",
-          "Idempotency-Key": IdempotencyHelper.generateKey(),
-          "Content-Type": "application/json",
-        },
-      ).timeout(timeoutDuration, onTimeout: _onTimeout);
-      print("response: ${response.body}");
+      Map<String, String> headers = {
+        "Authorization": "Bearer $token",
+        "Idempotency-Key": IdempotencyHelper.generateKey(),
+        "Content-Type": "application/json",
+      };
+      final response = await http
+          .get(Uri.parse(endpoint), headers: headers)
+          .timeout(timeoutDuration, onTimeout: _onTimeout);
+      print("get request: \n${endpoint}\n headers:${headers}}");
+      debugPrint("Response ${response.statusCode}: ${response.body}");
 
       return await _handleResponse(
         response,
         context,
-        () => ApiRequest.get(endpoint,
-            context: context), // Wrap the request inside a closure
+        () => ApiRequest.get(endpoint, context: context),
       );
     } on TimeoutException {
       return _handleTimeout();
@@ -59,7 +59,8 @@ class ApiRequest {
           )
           .timeout(timeoutDuration, onTimeout: _onTimeout);
       print("delete request: ${headers}\n${endpoint}}");
-      print("response: ${response.body}");
+      debugPrint("Response ${response.statusCode}: ${response.body}");
+
       return await _handleResponse(
         response,
         context,
@@ -97,7 +98,8 @@ class ApiRequest {
           )
           .timeout(timeoutDuration, onTimeout: _onTimeout);
       print("post request:${mergedHeaders}\n${endpoint}\n${json.encode(body)}");
-      print("response: ${response.body}");
+      debugPrint("Response ${response.statusCode}: ${response.body}");
+
       return await _handleResponse(
         response,
         context,
@@ -131,6 +133,7 @@ class ApiRequest {
             headers: defaultHeaders,
           )
           .timeout(timeoutDuration, onTimeout: _onTimeout);
+      debugPrint("Response ${response.statusCode}: ${response.body}");
 
       return await _handleResponse(
         response,
@@ -153,8 +156,6 @@ class ApiRequest {
     BuildContext context,
     Future<Map<String, dynamic>> Function() apiRequest,
   ) async {
-    debugPrint("Response ${response.statusCode}: ${response.body}");
-
     switch (response.statusCode) {
       case 200:
         return {

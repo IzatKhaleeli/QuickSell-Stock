@@ -12,7 +12,6 @@ class ItemsState extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   Future<void> fetchItems(BuildContext context, int storeId) async {
-    debugPrint("fetchItems started");
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -32,7 +31,7 @@ class ItemsState extends ChangeNotifier {
 
   Future<String?> deleteItem(
     BuildContext context,
-    String itemId,
+    int itemId,
   ) async {
     _isLoading = true;
     _errorMessage = null;
@@ -60,23 +59,16 @@ class ItemsState extends ChangeNotifier {
 
   Future<String?> updateItem(
     BuildContext context,
-    ItemModel item,
+    int itemId,
+    Map<String, dynamic> body,
   ) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      Map<String, dynamic> body = {
-        "Price": item.sellingPrice,
-        "ActualPrice": item.purchasePrice,
-        "ItemName": item.itemName,
-        "StoreID": 1,
-        "IsActive": true,
-      };
-
       final response = await ItemService.updateItem(
-          context: context, body: body, itemId: item.itemId.toString());
+          context: context, body: body, itemId: itemId);
 
       if (response['success'] == true &&
           (response['status'] == 200 || response['status'] == 201)) {

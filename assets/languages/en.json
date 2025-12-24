@@ -100,5 +100,8 @@
   "management": "Management",
   "newItem": "New Item",
   "updateItem": "Update Item",
-  "itemCreatedSuccessfully": "Item created successfully"
+  "itemCreatedSuccessfully": "Item created successfully",
+  "priceValidValues": "Prices must be valid values",
+  "itemUpdatedSuccessfully": "Item updated successfully",
+  "itemDeletedSuccessfully": "Item deleted successfully"
 }

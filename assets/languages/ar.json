@@ -96,7 +96,10 @@
   "main_screen": "الشاشة الرئيسية",
   "management": "الإدارة",
   "newItem": "المنتج جديد",
-  "updateItem": "تحديث المنتج",
+  "updateItem": "تعديل المنتج",
   "item_name": "اسم المنتج",
-  "itemCreatedSuccessfully": "تم إنشاء المنتج بنجاح"
+  "itemCreatedSuccessfully": "تم إنشاء المنتج بنجاح",
+  "priceValidValues": "يجب أن تكون الأسعار قيم صالحة",
+  "itemUpdatedSuccessfully": "تم تعديل المنتج بنجاح",
+  "itemDeletedSuccessfully": "تم حذف المنتج بنجاح"
 }

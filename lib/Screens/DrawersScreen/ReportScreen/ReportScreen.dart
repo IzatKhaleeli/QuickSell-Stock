@@ -387,7 +387,6 @@ class _ReportScreenState extends State<ReportScreen> {
       print(
           "Generating Sales Report from $formattedFromDate to $formattedToDate");
 
-      // Fetch the history expenses list
       List<ExpensesItemModel> historyExpensesList =
           await ExpensesService.fetchHistoryExpenses(
               context, formattedFromDate, formattedToDate);
@@ -398,7 +397,6 @@ class _ReportScreenState extends State<ReportScreen> {
     } catch (e) {
       Navigator.pop(context); // ✅ Pop after failure
       print('Error generating expenses report: $e');
-      // You can show an error dialog or display a message in the UI based on the exception
       await showLoginFailedDialog(
         context,
         appLocalization.getLocalizedString('reportGenerationFailed'),

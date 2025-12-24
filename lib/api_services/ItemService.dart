@@ -20,7 +20,7 @@ class ItemService {
   static Future<Map<String, dynamic>> updateItem(
       {required BuildContext context,
       required Map<String, dynamic> body,
-      required String itemId}) async {
+      required int itemId}) async {
     final endpoint = "${ApiConstants.item}/$itemId";
     final response =
         await ApiRequest.put(endpoint: endpoint, body: body, context: context);
@@ -42,7 +42,7 @@ class ItemService {
   }
 
   static Future<Map<String, dynamic>> deleteItem(
-      {required BuildContext context, required String itemId}) async {
+      {required BuildContext context, required int itemId}) async {
     final endpoint = "${ApiConstants.item}/$itemId";
     final response =
         await ApiRequest.delete(endpoint: endpoint, context: context);
