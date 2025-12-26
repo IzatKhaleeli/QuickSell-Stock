@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../Constants/app_color.dart';
 import '../../../services/LocalizationService.dart';
 import '../../../services/responsive.dart';
 import '../../../States/ItemsState.dart';
@@ -44,14 +45,6 @@ class _UpdateItemScreenState extends State<UpdateItemScreen> {
           if (itemsState.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (itemsState.errorMessage != null) {
-            return Center(
-              child: Text(
-                itemsState.errorMessage!,
-                style: TextStyle(fontSize: r.font(14)),
-              ),
-            );
-          }
           final items = itemsState.items;
           if (items.isEmpty) {
             return Center(
@@ -61,7 +54,6 @@ class _UpdateItemScreenState extends State<UpdateItemScreen> {
               ),
             );
           }
-
           return RefreshIndicator(
             onRefresh: () => itemsState.fetchItems(context, _storeId),
             child: ListView.builder(
@@ -82,8 +74,8 @@ class _UpdateItemScreenState extends State<UpdateItemScreen> {
                     final screenContext = this.context;
                     CustomPopups.showCustomDialog(
                       context: screenContext,
-                      icon:
-                          const Icon(Icons.delete, color: Colors.red, size: 40),
+                      icon: const Icon(Icons.delete,
+                          color: AppColors.errorColor, size: 40),
                       title: appLocalization
                           .getLocalizedString('deleteConfirmationTitle'),
                       message: appLocalization
@@ -91,14 +83,12 @@ class _UpdateItemScreenState extends State<UpdateItemScreen> {
                       deleteButtonText:
                           appLocalization.getLocalizedString('delete'),
                       onPressButton: () async {
-                        showLoadingAvatar(screenContext);
                         try {
                           debugPrint('Deleting item with id: ${item.itemId}');
                           final err = await itemsState.deleteItem(
                             screenContext,
                             item.itemId,
                           );
-
                           if (err == null) {
                             ScaffoldMessenger.of(screenContext).showSnackBar(
                               SnackBar(
@@ -107,33 +97,17 @@ class _UpdateItemScreenState extends State<UpdateItemScreen> {
                                         'itemDeletedSuccessfully')),
                               ),
                             );
-                            if (mounted) {
-                              Navigator.of(screenContext).pop();
-                            }
                             await itemsState.fetchItems(
                                 screenContext, _storeId);
                           } else {
-                            print("sss");
                             ScaffoldMessenger.of(screenContext).showSnackBar(
                               SnackBar(content: Text(err)),
                             );
-                            if (mounted) {
-                              Navigator.of(screenContext).pop();
-                            }
                           }
                         } catch (e) {
-                          print("qqq");
                           ScaffoldMessenger.of(screenContext).showSnackBar(
                             SnackBar(content: Text(e.toString())),
                           );
-                          if (mounted) {
-                            Navigator.of(screenContext).pop();
-                          }
-                        } finally {
-                          if (mounted) {
-                            Navigator.of(screenContext, rootNavigator: true)
-                                .pop();
-                          }
                         }
                       },
                     );

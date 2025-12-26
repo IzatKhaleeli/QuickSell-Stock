@@ -53,14 +53,14 @@ class FormFieldWidget extends StatelessWidget {
               style: TextStyle(
                 fontSize: r.font(13),
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: AppColors.black,
               ),
               children: isRequired
                   ? const [
                       TextSpan(
                         text: ' *',
                         style: TextStyle(
-                          color: Colors.red,
+                          color: AppColors.errorColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -84,7 +84,7 @@ class FormFieldWidget extends StatelessWidget {
           style: TextStyle(
             fontSize: r.font(13),
             fontWeight: FontWeight.w400,
-            color: Colors.black,
+            color: AppColors.black,
           ),
           controller: controller,
           obscureText: obscureText,

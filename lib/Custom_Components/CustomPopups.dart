@@ -26,8 +26,10 @@ class CustomPopups {
               const SizedBox(height: 20),
               Text(
                 title,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: AppColors.primaryColor),
               ),
               const SizedBox(height: 10),
               Text(
@@ -49,7 +51,7 @@ class CustomPopups {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.secondaryColor,
+                backgroundColor: AppColors.primaryColor,
               ),
               child: Text(deleteButtonText),
               onPressed: () {

@@ -158,9 +158,14 @@ class ApiRequest {
   ) async {
     switch (response.statusCode) {
       case 200:
+      case 201:
+      case 204:
+        final body = response.body;
+
         return {
           'success': true,
-          'data': json.decode(response.body),
+          'data':
+              body.isNotEmpty ? json.decode(body) : {"message": "No Content"},
           'status': 200,
         };
 

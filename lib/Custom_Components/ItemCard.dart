@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../Constants/app_color.dart';
+import '../services/LocalizationService.dart';
 import '../services/responsive.dart';
 import '../Models/ItemModel.dart';
 import 'LabeledValue.dart';
@@ -19,6 +21,8 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final r = Responsive(context);
+    final appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
     return Container(
       margin:
           EdgeInsets.symmetric(vertical: r.scale(6), horizontal: r.scale(8)),
@@ -58,12 +62,13 @@ class ItemCard extends StatelessWidget {
                   runSpacing: r.scale(6),
                   children: [
                     LabeledValue(
-                      label: 'Purchase',
+                      label:
+                          appLocalization.getLocalizedString('purchasePrice'),
                       value: item.purchasePrice.toStringAsFixed(2),
                       color: AppColors.secondaryColor,
                     ),
                     LabeledValue(
-                      label: 'Selling',
+                      label: appLocalization.getLocalizedString('sellingPrice'),
                       value: item.sellingPrice.toStringAsFixed(2),
                       color: AppColors.primaryColor,
                     ),
@@ -108,5 +113,3 @@ class ItemCard extends StatelessWidget {
     );
   }
 }
-
-// LabeledValue moved to its own file for cleaner separation.

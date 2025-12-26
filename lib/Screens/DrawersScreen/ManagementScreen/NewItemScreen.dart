@@ -90,80 +90,7 @@ class _NewItemScreenState extends State<NewItemScreen> {
                   text: appLocalization.getLocalizedString('submit'),
                   isPrimary: true,
                   onPressed: () async {
-                    if (_formKey.currentState?.validate() ?? false) {
-                      FocusScope.of(context).unfocus();
-                      final itemState =
-                          Provider.of<ItemsState>(context, listen: false);
-
-                      showLoadingAvatar(context);
-                      try {
-                        final name = _nameController.text.trim();
-                        final purchase = double.tryParse(
-                            _purchasePriceController.text.trim());
-                        final selling = double.tryParse(
-                            _sellingPriceController.text.trim());
-
-                        if (purchase == null || selling == null) {
-                          Navigator.of(context, rootNavigator: true).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                appLocalization
-                                    .getLocalizedString('priceValidValue'),
-                              ),
-                            ),
-                          );
-                          return;
-                        }
-
-                        final prefs = await SharedPreferences.getInstance();
-                        final token = prefs.getString('token') ?? '';
-
-                        Map<String, String> headers = {
-                          "Authorization": "Bearer $token",
-                          "Content-Type": "application/json",
-                        };
-
-                        Map<String, dynamic> body = {
-                          "Name": name,
-                          "ActualPrice": purchase,
-                          "Price": selling,
-                          "StoreId": "1",
-                          "IsActive": "true",
-                        };
-
-                        final err =
-                            await itemState.postItem(context, body, headers);
-
-                        if (mounted) {
-                          Navigator.of(context, rootNavigator: true).pop();
-                        }
-
-                        if (err == null) {
-                          await itemState.fetchItems(context, 1);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(appLocalization.getLocalizedString(
-                                  'itemCreatedSuccessfully')),
-                            ),
-                          );
-                          Navigator.of(context).pop();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(err),
-                            ),
-                          );
-                        }
-                      } catch (e) {
-                        if (mounted) {
-                          Navigator.of(context, rootNavigator: true).pop();
-                        }
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(e.toString())),
-                        );
-                      }
-                    }
+                    await _onSubmitPressed();
                   },
                 ),
               ],
@@ -172,5 +99,112 @@ class _NewItemScreenState extends State<NewItemScreen> {
         ),
       ),
     );
+  }
+}
+
+extension _NewItemScreenSubmit on _NewItemScreenState {
+  Future<void> _onSubmitPressed() async {
+    final appLocalization =
+        Provider.of<LocalizationService>(context, listen: false);
+    final itemState = Provider.of<ItemsState>(context, listen: false);
+
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+
+    FocusScope.of(context).unfocus();
+
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+
+    final validationError = _validateInputs(appLocalization);
+    if (validationError != null) {
+      messenger.showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(
+            validationError,
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      );
+      return;
+    }
+
+    final name = _nameController.text.trim();
+    final purchase = double.tryParse(_purchasePriceController.text.trim());
+    final selling = double.tryParse(_sellingPriceController.text.trim());
+
+    if (purchase == null || selling == null) {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            appLocalization.getLocalizedString('priceValidValue'),
+          ),
+        ),
+      );
+      return;
+    }
+
+    showLoadingAvatar(context);
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token') ?? '';
+
+      final headers = <String, String>{
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      };
+
+      final body = <String, dynamic>{
+        "Name": name,
+        "ActualPrice": purchase,
+        "Price": selling,
+        "StoreId": "1",
+        "IsActive": "true",
+      };
+
+      final err = await itemState.postItem(context, body, headers);
+
+      if (err == null) {
+        await itemState.fetchItems(context, 1);
+        messenger.showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Center(
+              child: Text(
+                appLocalization.getLocalizedString('itemCreatedSuccessfully'),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        );
+        navigator.pop();
+      } else {
+        messenger.showSnackBar(
+          SnackBar(content: Text(err)),
+        );
+      }
+    } catch (e) {
+      messenger.showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    } finally {
+      if (mounted) {
+        Navigator.of(context, rootNavigator: true).pop();
+      }
+    }
+  }
+
+  String? _validateInputs(LocalizationService appLocalization) {
+    final sellingText = _sellingPriceController.text.trim();
+    final selling = double.tryParse(sellingText);
+    if (selling != null && selling <= 0) {
+      final msg = appLocalization.getLocalizedString('sellingNotUnderZero');
+      return msg.isNotEmpty && msg != 'sellingNotUnderZero'
+          ? msg
+          : 'Selling price must be a positive number.';
+    }
+
+    return null;
   }
 }

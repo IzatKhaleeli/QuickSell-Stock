@@ -103,5 +103,6 @@
   "itemCreatedSuccessfully": "Item created successfully",
   "priceValidValues": "Prices must be valid values",
   "itemUpdatedSuccessfully": "Item updated successfully",
-  "itemDeletedSuccessfully": "Item deleted successfully"
+  "itemDeletedSuccessfully": "Item deleted successfully",
+  "sellingNotUnderZero": "Selling price must be a positive number."
 }

@@ -101,5 +101,6 @@
   "itemCreatedSuccessfully": "تم إنشاء المنتج بنجاح",
   "priceValidValues": "يجب أن تكون الأسعار قيم صالحة",
   "itemUpdatedSuccessfully": "تم تعديل المنتج بنجاح",
-  "itemDeletedSuccessfully": "تم حذف المنتج بنجاح"
+  "itemDeletedSuccessfully": "تم حذف المنتج بنجاح",
+  "sellingNotUnderZero": "يجب أن يكون سعر البيع رقمًا موجبًا."
 }

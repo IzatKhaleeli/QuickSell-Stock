@@ -41,14 +41,24 @@ class ItemsState extends ChangeNotifier {
       final response =
           await ItemService.deleteItem(context: context, itemId: itemId);
 
-      if (response['success'] == true &&
-          (response['status'] == 200 || response['status'] == 201)) {
+      final int status = response['status'] ?? -1;
+
+      // Treat 204 No Content as success even if body is empty or parsing failed
+      if (status == 204) {
+        return null;
+      }
+
+      if (response['success'] == true && (status == 200 || status == 201)) {
         return null;
       } else {
-        _errorMessage = "Failed to delete item: ${response['error']}";
+        print(
+            "else Error deleting item: response ${response['error'] ?? "NA"}");
+
+        _errorMessage = "Failed to delete item: ${response['error'] ?? "NA"}";
         return _errorMessage;
       }
     } catch (e) {
+      print("catch Error deleting item: $e");
       _errorMessage = "Failed to delete item: $e";
       return _errorMessage;
     } finally {
