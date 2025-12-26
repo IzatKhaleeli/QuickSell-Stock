@@ -41,14 +41,10 @@ class ItemsState extends ChangeNotifier {
       final response =
           await ItemService.deleteItem(context: context, itemId: itemId);
 
-      final int status = response['status'] ?? -1;
-
-      // Treat 204 No Content as success even if body is empty or parsing failed
-      if (status == 204) {
-        return null;
-      }
-
-      if (response['success'] == true && (status == 200 || status == 201)) {
+      if (response['success'] == true &&
+          (response['status'] == 200 ||
+              response['status'] == 201 ||
+              response['status'] == 204)) {
         return null;
       } else {
         print(

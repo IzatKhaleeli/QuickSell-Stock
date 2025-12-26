@@ -6,7 +6,6 @@ import '../../../services/responsive.dart';
 import '../../../States/ItemsState.dart';
 import '../../../Custom_Components/ItemCard.dart';
 import '../../../Custom_Components/CustomPopups.dart';
-import '../../../Custom_Components/CustomLoadingAvatar.dart';
 import '../../../Custom_Components/EditItemDialog.dart';
 
 class UpdateItemScreen extends StatefulWidget {
